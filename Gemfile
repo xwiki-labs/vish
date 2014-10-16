@@ -41,6 +41,8 @@ gem 'hashie', '= 2.1.2'
 gem 'detect_language', '=1.0.5'
 gem 'faker', '= 1.4.3'
 
+gem 'open_badges', '0.0.1', :git => 'git://github.com/eldwin/openbadges-rails'
+
 #Gems from Git repositories
 gem 'simple_captcha', :git => 'git://github.com/galetahub/simple-captcha.git', :ref => '2602bf1'
 gem 'delegates_attributes_to', :git => 'git://github.com/pahanix/delegates_attributes_to.git', :ref => '69704cb'

@@ -22,6 +22,21 @@ GIT
       paperclip (>= 2.5.2)
 
 GIT
+  remote: git://github.com/eldwin/openbadges-rails
+  revision: 904896a4498cc4225b7551576fec1759b7a15d9a
+  specs:
+    open_badges (0.0.1)
+      bootstrap-sass (~> 2.0)
+      cancan (~> 1.6)
+      chunky_png (~> 1.2.7)
+      jquery-rails
+      paperclip (~> 3.0)
+      rails (~> 3.0)
+      sass-rails (~> 3.2)
+      select2-rails (~> 3.3.1)
+      will_paginate (~> 3.0)
+
+GIT
   remote: git://github.com/galetahub/simple-captcha.git
   revision: 2602bf19a63df25929960b5a7721a9d265281ec1
   ref: 2602bf1
@@ -167,6 +182,7 @@ GEM
       mime-types (>= 1.16)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
+    chunky_png (1.2.9)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -461,6 +477,7 @@ GEM
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.0.7)
+    will_paginate (3.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -493,6 +510,7 @@ DEPENDENCIES
   mysql2 (= 0.3.16)
   net-ssh (= 2.4.0)
   oai_repository!
+  open_badges (= 0.0.1)!
   paperclip (= 3.5.1)
   paperclip-ffmpeg!
   pdf-reader (= 1.3.3)

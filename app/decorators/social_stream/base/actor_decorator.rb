@@ -9,6 +9,10 @@ Actor.class_eval do
     self.is_admin
   end
 
+  def is_openbadges_admin?
+    true
+  end
+
   def create_slug
     return unless self.slug.nil? or !self.name.nil?
     

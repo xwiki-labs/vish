@@ -64,4 +64,7 @@ Vish::Application.configure do
 
   #default host for routes
   Rails.application.routes.default_url_options[:host] = config.APP_CONFIG['domain']
+
+  #for openbadges gem
+  config.default_url_options = { :host => config.APP_CONFIG['domain'] }
 end

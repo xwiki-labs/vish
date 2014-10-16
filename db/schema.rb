@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141008125350) do
+ActiveRecord::Schema.define(:version => 20141015103633) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_verb_id"
@@ -96,13 +96,6 @@ ActiveRecord::Schema.define(:version => 20141008125350) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.decimal  "teachers_qscore",                    :precision => 12, :scale => 6
-  end
-
-  create_table "activity_objects_wa_galleries", :id => false, :force => true do |t|
-    t.integer  "activity_object_id"
-    t.integer  "wa_gallery_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
   end
 
   create_table "activity_verbs", :force => true do |t|
@@ -347,6 +340,77 @@ ActiveRecord::Schema.define(:version => 20141008125350) do
   end
 
   add_index "notifications", ["conversation_id"], :name => "index_notifications_on_conversation_id"
+
+  create_table "open_badges_alignments", :force => true do |t|
+    t.string   "url"
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "open_badges_assertions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "badge_id"
+    t.string   "evidence"
+    t.datetime "expires"
+    t.text     "identity"
+    t.string   "identity_type"
+    t.boolean  "identity_hashed"
+    t.string   "identity_salt"
+    t.string   "verification_type"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "open_badges_badge_alignments", :force => true do |t|
+    t.integer  "badge_id"
+    t.integer  "alignment_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "open_badges_badge_tags", :force => true do |t|
+    t.integer  "badge_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "open_badges_badges", :force => true do |t|
+    t.string   "name"
+    t.string   "criteria"
+    t.text     "description"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "open_badges_organizations", :force => true do |t|
+    t.string   "url"
+    t.string   "name"
+    t.string   "email"
+    t.string   "description"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "open_badges_tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "pdfexes", :force => true do |t|
     t.datetime "created_at",                             :null => false
@@ -629,6 +693,13 @@ ActiveRecord::Schema.define(:version => 20141008125350) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "wa_gallery_activity_objects", :id => false, :force => true do |t|
+    t.integer  "wa_gallery_id"
+    t.integer  "activity_object_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "wa_resources", :force => true do |t|
     t.integer  "activity_object_id"
     t.datetime "created_at",         :null => false
@@ -653,20 +724,19 @@ ActiveRecord::Schema.define(:version => 20141008125350) do
 
   create_table "workshop_activities", :force => true do |t|
     t.integer  "workshop_id"
-    t.integer  "wa_id"
-    t.string   "wa_type"
+    t.string   "wa_activity_type"
     t.integer  "position"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "workshops", :force => true do |t|
     t.integer  "activity_object_id"
-    t.boolean  "draft",              :default => true
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.boolean  "draft"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "writings", :force => true do |t|

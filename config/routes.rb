@@ -1,5 +1,7 @@
 Vish::Application.routes.draw do
 
+  mount OpenBadges::Engine => '/open_badges'
+
   devise_for :users, :controllers => {:omniauth_callbacks => 'omniauth_callbacks', registrations: 'registrations', :invitations => 'devise_invitations' }
 
   match 'users/:id/excursions' => 'users#excursions'
