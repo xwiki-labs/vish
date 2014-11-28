@@ -10,21 +10,16 @@ SocialStream.setup do |config|
   # :confirmable, :lockable, :timeoutable, :validatable
   config.devise_modules = [:database_authenticatable,
                             :recoverable, :rememberable, :trackable,
-                            :omniauthable, :token_authenticatable]
+                            :omniauthable, :token_authenticatable, :registerable]
 
-  if Vish::Application.config.APP_CONFIG["register_policy"] == "INVITATION_ONLY"
-    config.devise_modules << :invitable
-  elsif Vish::Application.config.APP_CONFIG["register_policy"] == "REGISTER_ONLY"
-    config.devise_modules << :registerable 
-  else
-    config.devise_modules << :invitable
-    config.devise_modules << :registerable
+  if Vish::Application.config.APP_CONFIG["register_policy"] == "INVITATION_ONLY" || Vish::Application.config.APP_CONFIG["register_policy"] == "HYBRID"
+    config.devise_modules << :invitable  
   end
 
   # Type of activities managed by actors
   # Remember you must add an "activity_object_id" foreign key column to your migration!
   #
-  config.objects = [ :post, :comment, :document, :link, :excursion, :embed, :writing, :swf, :officedoc, :event, :category, :zipfile, :scormfile, :webapp, :workshop ]
+  config.objects = [:post, :comment, :document, :link, :excursion, :embed, :writing, :swf, :officedoc, :event, :category, :zipfile, :scormfile, :webapp, :workshop]
 
   # Form for activity objects to be loaded 
   # You can write your own activity objects

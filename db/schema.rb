@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141015103633) do
+ActiveRecord::Schema.define(:version => 20141120095200) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_verb_id"
@@ -98,6 +98,11 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
     t.decimal  "teachers_qscore",                    :precision => 12, :scale => 6
   end
 
+  create_table "activity_objects_wa_resources_galleries", :id => false, :force => true do |t|
+    t.integer "activity_object_id"
+    t.integer "wa_resources_gallery_id"
+  end
+
   create_table "activity_verbs", :force => true do |t|
     t.string   "name",       :limit => 45
     t.datetime "created_at"
@@ -131,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
     t.boolean  "is_mve",                :default => false
     t.integer  "rankMve",               :default => 0
     t.boolean  "is_admin",              :default => false
+    t.text     "category_order"
   end
 
   add_index "actors", ["activity_object_id"], :name => "index_actors_on_activity_object_id"
@@ -159,6 +165,8 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
     t.integer  "activity_object_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.text     "category_order"
+    t.integer  "parent_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -256,32 +264,6 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
   create_table "excursion_contributors", :force => true do |t|
     t.integer "excursion_id"
     t.integer "contributor_id"
-  end
-
-  create_table "excursion_evaluations", :force => true do |t|
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "excursion_id"
-    t.string   "ip"
-    t.integer  "answer_0"
-    t.integer  "answer_1"
-    t.integer  "answer_2"
-    t.integer  "answer_3"
-    t.integer  "answer_4"
-    t.integer  "answer_5"
-  end
-
-  create_table "excursion_learning_evaluations", :force => true do |t|
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "excursion_id"
-    t.string   "ip"
-    t.integer  "answer_0"
-    t.integer  "answer_1"
-    t.integer  "answer_2"
-    t.integer  "answer_3"
-    t.integer  "answer_4"
-    t.integer  "answer_5"
   end
 
   create_table "excursions", :force => true do |t|
@@ -670,10 +652,18 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
 
   create_table "wa_assignments", :force => true do |t|
     t.text     "fulltext"
+    t.text     "plaintext"
+    t.boolean  "with_dates",              :default => false
     t.datetime "open_date"
     t.datetime "due_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "available_contributions"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "wa_assignments_wa_contributions_galleries", :id => false, :force => true do |t|
+    t.integer "wa_assignment_id"
+    t.integer "wa_contributions_gallery_id"
   end
 
   create_table "wa_contributions_galleries", :force => true do |t|
@@ -681,29 +671,22 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "wa_contributions_gallery_wa_assignments", :id => false, :force => true do |t|
-    t.integer  "wa_contributions_gallery_id"
-    t.integer  "wa_assignment_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-  end
-
-  create_table "wa_galleries", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "wa_gallery_activity_objects", :id => false, :force => true do |t|
-    t.integer  "wa_gallery_id"
-    t.integer  "activity_object_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
   create_table "wa_resources", :force => true do |t|
     t.integer  "activity_object_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+  end
+
+  create_table "wa_resources_galleries", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "wa_texts", :force => true do |t|
+    t.text     "fulltext"
+    t.text     "plaintext"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "webapps", :force => true do |t|
@@ -724,19 +707,20 @@ ActiveRecord::Schema.define(:version => 20141015103633) do
 
   create_table "workshop_activities", :force => true do |t|
     t.integer  "workshop_id"
-    t.string   "wa_activity_type"
+    t.integer  "wa_id"
+    t.string   "wa_type"
     t.integer  "position"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "workshops", :force => true do |t|
     t.integer  "activity_object_id"
-    t.boolean  "draft"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.boolean  "draft",              :default => true
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "writings", :force => true do |t|

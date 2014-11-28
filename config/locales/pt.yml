@@ -9,6 +9,7 @@ pt:
   document:
     input: "Descrição do recurso"
   excursion:
+    detail: "Detalhes"
     one: "excursão"
     other: "excursões"
     upcomming: "upcomming"
@@ -21,10 +22,11 @@ pt:
     followers: "seguidores"
     followings: "seguindo"
   help: "ajuda"
+  info:
+    author: "Autor"
   lang:
     title: "idioma"
-    changed: "idioma:  %{lang}"
-    error: "%{lang}"
+    changed: "idioma: %{lang}"
   mailboxer:
     new_message_for: "Nova mensagem para"
     delete_confirm: "Você quer mover '%{csubject}' para o lixo?"

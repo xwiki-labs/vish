@@ -1,12 +1,14 @@
+# encoding: utf-8
+
 ActivityObject.class_eval do
-
   has_many :spam_reports
-  has_and_belongs_to_many :wa_galleries
-
+  has_and_belongs_to_many :wa_resources_galleries
+  has_one :contribution
 
   before_save :fill_relation_ids
   before_save :fill_indexed_lengths
   after_destroy :destroy_spam_reports
+  after_destroy :destroy_contribution
 
   has_attached_file :avatar,
                   :url => '/:class/avatar/:id.:extension',
@@ -25,7 +27,6 @@ ActivityObject.class_eval do
   attr_accessor :score
   attr_accessor :score_tracking
   
-
   def public?
     !private? and self.relation_ids.include? Relation::Public.instance.id
   end
@@ -131,6 +132,7 @@ ActivityObject.class_eval do
       :id => self.getUniversalId(),
       :type => self.getType(),
       :created_at => self.created_at.strftime("%d-%m-%Y"),
+      :updated_at => self.updated_at.strftime("%d-%m-%Y"),
       :title => title,
       :description => resource.description || "",
       :tags => resource.tag_list,
@@ -182,6 +184,10 @@ ActivityObject.class_eval do
 
     unless resource.users_qscore.nil?
       searchJson[:users_qscore] = resource.users_qscore.to_f
+    end
+
+    unless resource.teachers_qscore.nil?
+      searchJson[:teachers_qscore] = resource.teachers_qscore.to_f
     end
 
     if resource.class.name == "Event"
@@ -284,7 +290,7 @@ ActivityObject.class_eval do
 
     resource = self.object
 
-    if resource.class.superclass.name=="Document"
+    if [resource.class.name,resource.class.superclass.name].include? "Document"
       relativePath = resource.file.url
     elsif ["Scormfile","Webapp"].include? resource.class.name
       absolutePath = resource.zipurl
@@ -302,7 +308,6 @@ ActivityObject.class_eval do
 
   def getAvatarUrl
     resource = self.object
-
     if resource.class.name=="User"
       relativePath = resource.logo.to_s
     elsif resource.class.name=="Excursion"
@@ -320,6 +325,84 @@ ActivityObject.class_eval do
     return absolutePath
   end
 
+  def readable_language
+    readable_from_list('lang.languages',self.language)
+  end
+
+  def readable_context(context)
+    readable_from_list('activity_object.context_choices',context)
+  end
+
+  def readable_difficulty(difficulty)
+    readable_from_list('activity_object.difficulty_choices',difficulty)
+  end
+
+  def readable_subject(subject)
+    readable_from_list('activity_object.subjects_choices',subject)
+  end
+
+  def readable_from_list(list,word)
+    return nil if list.nil? or word.nil?
+    wordKey = word.to_s.gsub(" ","_").downcase
+    default = I18n.t(list + '.other', :default => word)
+    I18n.t(list + '.' + wordKey, :default =>default)
+  end
+
+  def metadata
+    metadata = {}
+
+    unless self.title.nil?
+      metadata[I18n.t("activity_object.title")] = self.title
+    end
+
+    unless self.description.nil?
+      metadata[I18n.t("activity_object.description")] = self.description
+    end
+
+    if !self.tag_list.nil? and self.tag_list.is_a? Array
+      metadata[I18n.t("activity_object.keywords")] = self.tag_list.join(", ")
+    end
+
+    unless self.readable_language.nil?
+      metadata[I18n.t("activity_object.language")] = self.readable_language
+    end
+
+    unless self.age_min.blank? or self.age_max.blank?
+      metadata[I18n.t("activity_object.age_range")] = self.age_min.to_s + " - " + self.age_max.to_s
+    end
+
+    if self.object_type == "Excursion"
+      #Excursions have some extra metadata fields in the json
+      parsed_json = JSON(self.object.json)
+
+      if parsed_json["context"] and parsed_json["context"]!="Unspecified"
+        metadata[I18n.t("activity_object.context")] = self.readable_context(parsed_json["context"])
+      end
+
+      if parsed_json["difficulty"]
+        metadata[I18n.t("activity_object.difficulty")] = self.readable_difficulty(parsed_json["difficulty"])
+      end
+
+      if parsed_json["TLT"]
+        metadata[I18n.t("activity_object.tlt")] = parsed_json["TLT"].sub("PT","") #remove the PT at the beginning
+      end
+
+      if parsed_json["subject"] and parsed_json["subject"].class.name=="Array"
+        parsed_json["subject"].delete("Unspecified")
+        unless parsed_json["subject"].blank?
+          subjects = parsed_json["subject"].map{|subject| self.readable_subject(subject) }
+          metadata[I18n.t("activity_object.subjects")] = subjects.join(",")
+        end
+      end
+
+      if parsed_json["educational_objectives"]
+        metadata[I18n.t("activity_object.educational_objectives")] = parsed_json["educational_objectives"]
+      end
+    end
+
+    return metadata
+  end
+
 
   ##############
   ## Class Methods
@@ -334,7 +417,7 @@ ActivityObject.class_eval do
     end
 
     if options[:models].nil?
-      options[:models] = VishConfig.getAvailableAllResourceModels
+      options[:models] = VishConfig.getAvailableResourceModels
     end
     options[:models] = options[:models].map{|m| m.to_s }
 
@@ -353,7 +436,7 @@ ActivityObject.class_eval do
     nHalf = (n/2.to_f).ceil
 
     if options[:models].nil?
-      options[:models] = VishConfig.getAvailableAllResourceModels
+      options[:models] = VishConfig.getAvailableResourceModels
     end
     options[:models] = options[:models].map{|m| m.to_s }
 
@@ -410,8 +493,28 @@ ActivityObject.class_eval do
     getObjectFromUniversalId(universalId)
   end
 
+  def self.getObjectFromUrl(url)
+    return nil if url.blank?
+
+    urlregexp = /([ ]|^)(http[s]?:\/\/[^\/]+\/([a-zA-Z0-9]+)\/([0-9]+))([ ]|$)/
+    regexpResult = (url =~ urlregexp)
+
+    return nil if regexpResult.nil? or $3.nil? or $4.nil?
+
+    modelName = $3.singularize.capitalize
+    instanceId = $4
+
+    begin
+      resource = getObjectFromGlobalId(modelName + ":" + instanceId)
+    rescue
+      resource = nil
+    end
+
+    return resource
+  end
+
   def self.getResourceCount
-    getCount(["Excursion", "Document", "Webapp", "Scormfile","Link","Embed"])
+    getCount(["Workshop","Excursion", "Document", "Webapp", "Scormfile","Link","Embed"])
   end
 
   def self.getCount(models=[])
@@ -425,7 +528,7 @@ ActivityObject.class_eval do
     unless self.object.nil?
       if self.object_type != "Actor"
         #Resources
-        unless self.object_type == "Excursion" and self.object.draft==true
+        unless ["Excursion","Workshop"].include? self.object_type and self.object.draft==true
           #Always public except drafts
           self.object.relation_ids = [Relation::Public.instance.id]
           self.relation_ids = [Relation::Public.instance.id]
@@ -472,6 +575,12 @@ ActivityObject.class_eval do
   def destroy_spam_reports
     SpamReport.where(:activity_object_id => self.id).each do |spamReport|
       spamReport.destroy
+    end
+  end
+
+  def destroy_contribution
+    unless self.contribution.nil?
+      self.contribution.destroy
     end
   end
 

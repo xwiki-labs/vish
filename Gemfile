@@ -40,6 +40,7 @@ gem 'mailboxer', '= 0.10.3'
 gem 'hashie', '= 2.1.2'
 gem 'detect_language', '=1.0.5'
 gem 'faker', '= 1.4.3'
+gem 'acts-as-taggable-on', '= 2.4.1'
 
 gem 'open_badges', '0.0.1', :git => 'git://github.com/eldwin/openbadges-rails'
 
@@ -60,7 +61,7 @@ if ENV['FORCE_LOCAL_SS']
     gem 'social_stream-events'
   end
 else
-  git 'git://github.com/ging/social_stream.git', branch: "vish", ref: "ea51bed907e9404f384311f64d8263134f739097" do
+  git 'git://github.com/ging/social_stream.git', branch: "vish", ref: "dfd1c230fe41241564a89dfc00f7578cd184fd47" do
     gem 'social_stream-base'
     gem 'social_stream-documents'
     gem 'social_stream-linkser'

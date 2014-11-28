@@ -1,4 +1,4 @@
-<% availableModels = available_models %>
+<% availableModels ||= available_models %>
 
 <script type="text/javascript">
 
@@ -11,7 +11,7 @@
   var followings_tab_loaded = false;
 
   $(document).ready(function(){
-    
+
     $("#excursions_tab").click(function(){
       updateWindowTopUrl($(this).attr("id"));
       if(excursions_tab_loaded === false){
@@ -21,13 +21,11 @@
           type : "GET",
           url : "<%=user_url(profile_subject)%>/excursions",
           success : function(html) {
-            $('.loader_pagination').hide();      
-            $("#excursions_tab_ready").append(html);        
+            $('.loader_pagination').hide();
+            $("#excursions_tab_ready").append(html);
             re_apply_pageless("excursions");
-            re_apply_backstrech("excursions");
           },
           error: function(){
-            //console.log("error loading excursions");
           }
         });
       } else{
@@ -47,14 +45,12 @@
             $('.loader_pagination').hide();      
             $("#workshops_tab_ready").append(html);
             re_apply_pageless("workshops");
-            re_apply_backstrech("workshops");
           },
           error: function(){
-            console.log("error loading workshops");
          }
         });
       } else {
-        re_apply_pageless("resources");
+        re_apply_pageless("workshops");
       }
     });
 
@@ -67,13 +63,11 @@
           type : "GET",
           url : "<%=user_url(profile_subject)%>/resources",
           success : function(html) {
-            $('.loader_pagination').hide();      
+            $('.loader_pagination').hide();
             $("#resources_tab_ready").append(html);
             re_apply_pageless("resources");
-            re_apply_backstrech("resources");
           },
           error: function(){
-            console.log("error loading resources");
          }
         });
       } else {
@@ -93,10 +87,8 @@
             $('.loader_pagination').hide();
             $("#events_tab_ready").append(html);
             re_apply_pageless("events");
-            re_apply_backstrech("events");
           },
           error: function(){
-            //console.log("error loading events");
          }
         });
       } else {
@@ -112,13 +104,12 @@
         $.ajax({
           type : "GET",
           url : "<%=user_url(profile_subject)%>/categories",
-          success : function(html) {      
+          success : function(html) {
             $('.loader_pagination').hide();
             $("#categories_tab_ready").append(html);
             re_apply_pageless("categories");
           },
           error: function(){
-            //console.log("error loading categories");
          }
         });
       } else {
@@ -140,7 +131,6 @@
             re_apply_pageless("followers");
           },
           error: function(){
-            //console.log("error loading followers");
          }
         });
       } else {
@@ -157,12 +147,11 @@
           type : "GET",
           url : "<%= user_url(profile_subject) %>/followings",
           success : function(html) {
-            $('.loader_pagination').hide();   
+            $('.loader_pagination').hide();
             $("#followings_ul").prepend(html);
             re_apply_pageless("followings");
           },
           error: function(){
-            //console.log("error loading followings");
          }
         });
       } else {
@@ -217,18 +206,14 @@
   };
 
   function re_apply_pageless(tab){
-    //first remove old pageless
-    $.pagelessStop();
+    $.pagelessStop(); //remove old pageless
     $("#" + tab + "_tab_ready ul").pageless({
       totalPages: pageless_state[tab].num_pages,
       url: get_url_with_sort_by(tab),
       currentPage: pageless_state[tab].current_page,
       loader: '.loader_pagination',
       end: function(){
-        
         $('.loader_pagination').hide();
-        //dirty FIX
-        if (tab == "categories") re_apply_backstrech("categories");
       }
     });
   };
@@ -243,38 +228,36 @@
 
   function re_apply_backstrech(tab){
     $("#" + tab + "_tab_ready"  + " div[bs-img]").each(function(){
-      if($(this).parents(".tab-pane").css('display')!="none"){        
-        $(this).backstretch( $(this).attr("bs-img") );   
-        if($(this).parents(".tab-pane").css('display')=="none"){
-          $(this).attr("fix-bs", "true");
-        }
+      if($(this).parents(".tab-pane").css('display')!="none"){
+        $(this).backstretch($(this).attr("bs-img"));
+        $(this).attr("fix-bs", "false");
       }else{
         $(this).attr("fix-bs", "true");
-      }   
+      }
     });
   };
 
   $(window).on('resize.backstretch', set_fix_bs_on_hidden_tabs);
   $(window).on('orientationchange.backstretch', set_fix_bs_on_hidden_tabs);
-    
+
 
   function set_fix_bs_on_hidden_tabs(){
     $(".tab-pane:hidden").each(function(){
       $(".tab-pane:hidden").find("div[bs-img]").attr("fix-bs","true");
     });
-  }
+  };
 
   $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function(e) {
     fix_backstretch($(e.target).attr("href").substring(1));
   });
 
   function fix_backstretch(tab){
-    $("#" + tab +" div[fix-bs]").each(function() {
-      if($(this).parents(".tab-pane").css('display')!="none"){        
-        $(this).backstretch( $(this).attr("bs-img") );
+    $("#" + tab +" div[fix-bs]").each(function(){
+      if($(this).parents(".tab-pane").css('display')!="none"){
+        $(this).backstretch($(this).attr("bs-img"));
         $(this).removeAttr("fix-bs");
-      }        
-    });     
+      }
+    });
   };
 
   var canUseHistoryPushState = ((typeof history === "object")&&(typeof history.pushState == "function"));
@@ -305,7 +288,7 @@
         <% elsif modelName == "Workshop" %>
           <li class="<%= params[:tab]=='workshops' ? 'active':''%>">
             <a id="workshops_tab" href="#tabWorkshops" data-toggle="tab">
-              <i class="icon-file"></i>
+              <i class="icon-lightbulb"></i>
               <span class=" hidden-phone hidden-tablet"><%=t('workshop.other')%></span>
             </a>
           </li>
@@ -350,12 +333,9 @@
           <span class=" hidden-phone hidden-tablet"><%= t('follow.followings') %></span>
         </a>
       </li>
-
     </ul>
 
-
     <div class="tab-content">
-        
       <% if availableModels.include? "Excursion" %> 
         <div class="tab-pane <%=params[:tab]=='excursions' ? 'active':''%>" id="tabExcursions">
           <%= render partial: 'users/order_by_dropdown_excursions' %>
@@ -475,7 +455,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </div>
 </section>
@@ -485,11 +465,9 @@
     <% if params[:tab]=="excursions" %>
         excursions_tab_loaded = true;
         re_apply_pageless("excursions");
-        re_apply_backstrech("excursions");
     <% elsif params[:tab]=="workshops" %>
         workshops_tab_loaded = true;
         re_apply_pageless("workshops");
-        re_apply_backstrech("workshops");
     <% elsif params[:tab]=="events" %>
         events_tab_loaded = true;
         re_apply_pageless("events");
@@ -506,4 +484,3 @@
     <%end%>
   });
 </script>
-

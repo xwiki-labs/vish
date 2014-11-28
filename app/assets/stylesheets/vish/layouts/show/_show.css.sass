@@ -20,11 +20,12 @@
       @include grid-fluid-span(12, $fluidGridColumnWidth, $fluidGridGutterWidth)
       float: left
       background-color: $grayLighter
+      min-height: 220px
       .elemento-visor
         padding-top: 79%
         width: 100%
       //excursions
-      .caja-visor
+      .excursion_viewer_wrapper
         position: absolute
         top: 0
         bottom: 0
@@ -37,7 +38,6 @@
           left: 0
           width: 100%
           height: 100%
-
 
         .badge-excursion-active
           position: absolute
@@ -54,7 +54,7 @@
         text-align: center
         font-size: 40px
         i
-          margin-top: 10px
+          margin-top: 10%
           margin-bottom: 10px
           display: block
         .picture_show,
@@ -72,6 +72,9 @@
             width: 96% !important
             padding: 2%
             height: 100% !important
+          p
+            text-align: left
+
         i.icon-zip-new
           display: block
           width: 57px
@@ -154,7 +157,8 @@
           height: 50px
         //help
         .helpheader
-          .popover            
+          .popover
+            top: -217px !important
             width: 500px!important
             max-width: 500px !important
             .arrow
@@ -174,9 +178,6 @@
               width: 503px
               a
                 margin-left: 10px
-
-
-
           .arrow:after 
             border-left-color: #FFFFFF
         .tab-content > .active, .pill-content > .active
@@ -209,7 +210,6 @@
           textarea.report
             width: 50%
             clear: both
-
           button.report
             margin-left: 20px
             float: right
@@ -286,15 +286,10 @@
               width: 96%
               padding-left: 2%
               padding-right: 2%
-
             textarea
               height: 50px
             select
               width: 100%
-
-            
-
-
             .select2-container-multi 
               .select2-choices 
                 width: 97%
@@ -303,7 +298,7 @@
             .slider.slider-horizontal
               width: 100% !important
             .target_age
-              height: 80px
+              //height: 80px
             .btn-primary
               float: right
               width: auto
@@ -362,7 +357,7 @@
                 float: left
                 text-align: center
 
-        .viewsAndConunt
+        .viewsAndCount
           width: 90%
           margin-left: 0
           float: left 

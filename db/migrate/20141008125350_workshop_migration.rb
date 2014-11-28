@@ -32,8 +32,11 @@ class WorkshopMigration < ActiveRecord::Migration
     # Assignment
     create_table "wa_assignments", :force => true do |t|
       t.text     "fulltext"
+      t.text     "plaintext"
+      t.boolean  "with_dates", :default => false
       t.datetime "open_date"
       t.datetime "due_date"
+      t.text "available_contributions"
       t.timestamps
     end
 
@@ -44,45 +47,45 @@ class WorkshopMigration < ActiveRecord::Migration
       t.timestamps
     end
 
+    # Text
+    create_table "wa_texts", :force => true do |t|
+      t.text     "fulltext"
+      t.text     "plaintext"
+      t.timestamps
+    end
+
     # Contributions Gallery
     create_table "wa_contributions_galleries", :force => true do |t|
       t.timestamps
     end
 
-    create_table "wa_contributions_gallery_wa_assignments", id: false, :force => true do |t|
-      t.integer  "wa_contributions_gallery_id"
+    create_table "wa_assignments_wa_contributions_galleries", id: false, :force => true do |t|
       t.integer  "wa_assignment_id"
-      t.timestamps
+      t.integer  "wa_contributions_gallery_id"
     end
 
     # Resources Gallery
-    create_table "wa_galleries", :force => true do |t|
+    create_table "wa_resources_galleries", :force => true do |t|
       t.timestamps
     end
 
-    # create_table "wa_gallery_activity_objects", id: false, :force => true do |t|
-    #   t.integer  "wa_gallery_id"
-    #   t.integer  "activity_object_id"
-    #   t.timestamps
-    # end
-
-    create_table "activity_objects_wa_galleries", id: false, :force => true do |t|
+    create_table "activity_objects_wa_resources_galleries", id: false, :force => true do |t|
       t.integer  "activity_object_id"
-      t.integer  "wa_gallery_id"
-      t.timestamps
+      t.integer  "wa_resources_gallery_id"
     end
 
   end
 
   def down
-    drop_table :workshops
-    drop_table :workshop_activities
-    drop_table :wa_resources
-    drop_table :wa_assignments
-    drop_table :contributions
+    drop_table :activity_objects_wa_resources_galleries
+    drop_table :wa_resources_galleries
+    drop_table :wa_assignments_wa_contributions_galleries
     drop_table :wa_contributions_galleries
-    drop_table :wa_contributions_gallery_wa_assignments
-    drop_table :wa_galleries
-    drop_table :wa_gallery_activity_objects
+    drop_table :wa_texts
+    drop_table :contributions
+    drop_table :wa_assignments
+    drop_table :wa_resources
+    drop_table :workshop_activities
+    drop_table :workshops
   end
 end

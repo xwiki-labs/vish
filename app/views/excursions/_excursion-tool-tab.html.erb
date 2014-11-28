@@ -1,3 +1,4 @@
+<% availableModels ||= available_models %>
 <% editingToolbar = (@excursion.draft or controller.action_name == "edit") %>
 
 <script type="text/javascript">
@@ -78,7 +79,7 @@
       content: function() {
       return $('.contentclone').html();
       },
-      container: "body"
+      container: ".actions_layout_show"
     });
 
     $('.clone').on('shown.bs.popover', function (){
@@ -96,7 +97,7 @@
       content: function() {
         return $('.contentdelete').html();
       },
-      container: "body"
+      container: ".actions_layout_show"
     });
 
     $('.delete').on('shown.bs.popover', function(){
@@ -122,7 +123,7 @@
 
 
 <!--BTN ACTIONS-->
-<div class="btn-group">
+<div class="btn-group actions_layout_show">
 
   <!-- Edit -->
   <% if user_signed_in? and (can? :update, @excursion) and !editingToolbar %>
@@ -170,7 +171,7 @@
     <%end%>
 
     <!--Categorize-->
-    <%if user_signed_in? %>
+    <%if user_signed_in? and availableModels.include? "Category" %>
       <%= render partial: 'categories/category_modal_viewer', :locals => {:remote=> true, :item => @excursion} %>
       <button id="AddCategory" role="button" class="categorize_select btn with_tooltip" data-toggle="modal" data-target="#categories_viewer_modal" title="<%=t('category.modalLabel')%>" aria-hidden="true" >
         <i class="icon-th-large"></i>
@@ -247,7 +248,7 @@
     <!-- tab2 / embed -->
     <div class="tab-pane" id="tab2">
       <div class="contentembed">
-        <textarea class="shortUrl" readonly="true" id="textarea_for_iframe" type="text">&lt;iframe id='presentation_iframe' src='//<%= request.env["HTTP_HOST"] + excursion_path(@excursion, :format => :full)%>' width='910' height='680' style='border:0' iframeborder='0' frameborder='0' iframeElement.frameBorder = 0; webkitallowfullscreen mozallowfullscreen allowfullscreen &gt;&lt;/iframe&gt</textarea>
+        <textarea class="shortUrl" readonly="true" id="textarea_for_iframe" type="text">&lt;iframe src='//<%= request.env["HTTP_HOST"] + excursion_path(@excursion, :format => :full)%>' width='910' height='680' style='border:0' iframeborder='0' frameborder='0' iframeElement.frameBorder = 0; webkitallowfullscreen mozallowfullscreen allowfullscreen &gt;&lt;/iframe&gt</textarea>
         <button class="btn " id="btn_copy_embed" href="#" data-toggle="tooltip" data-placement="right" title="<%=t('copy_to_clip')%>">
           <i class="icon-copy large"></i>
         </button>
@@ -274,6 +275,7 @@
             <%= render :partial=>'shareon/gplus', :locals=>{:url=>shortURL} %>
           </div>
           <div class="email_toolbar_excursion">
+            <p><%=t('excursion.actions.send_email') %></p>
             <%= render :partial=>'shareon/email', :locals=>{:url=>shortURL, :title => @excursion.title, :name => (user_signed_in? ? current_subject.name : '')} %>
           </div>
         </div>
@@ -283,8 +285,8 @@
     <!-- tab4 / scorm -->
     <div class="tab-pane" id="tab4">
       <div class="contentscorm">
+        <p><%=t("excursion.download_scorm")%></p>
         <a class="btn btn-primary" href='<%=excursion_path(@excursion) + '.scorm'%>'><i class="icon-download"></i> <%=t('excursion.actions.scorm')%></a> 
-        <p><%=t("excursion.download_scorm")%></p><br/>
       </div> 
     </div> 
 
