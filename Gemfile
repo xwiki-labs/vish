@@ -95,4 +95,5 @@ group :test do
   # Pretty printed test output
   gem 'factory_girl', '= 2.6'
   gem 'capybara', '= 2.3.0'
+  gem 'zeus', '>= 0.15'
 end
