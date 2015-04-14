@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Workshop, models:true do
+describe Workshop, models:true, workshop:true do
 	before do
 		@workshop = Factory(:workshop)
 	end
