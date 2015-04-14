@@ -2,6 +2,7 @@
 require 'spec_helper'
 
 describe PostsController, controllers: true do
+#TODO
 end
 =begin
   include SocialStream::TestHelpers
