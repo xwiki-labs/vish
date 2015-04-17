@@ -13,7 +13,7 @@
     <% end %>
 
     <%= render partial: "settings/notifications" %>
-
+    <!-- TODO: Does it really work? -->
     <% #if current_subject.respond_to? :authentication_token %>
       <% #render partial: 'settings/api_key' %>
     <% #end %>
