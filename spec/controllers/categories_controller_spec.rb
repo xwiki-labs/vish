@@ -11,13 +11,38 @@ describe CategoriesController, controllers: true do
 	describe "renders" do
 		it "user categories" do
 			get :index
-			expect(response).to url_for(current_subject) + "?tab=categories"
+			# Make URL user_path(@user) + "?tab=categories"
+			expect(response).to redirect_to(user_path(@user) + "?tab=categories")
 		end
 
-		it "show_favourites" do 
-			get :favourites
-			 expect(subject).to redirect_to(assigns(:favourites))
+		it "show_favorites" do 
+			get :show_favorites
+			# Make URL favourites categories/favorites
+			# binding.pry
+			expect(response).to have_http_status(200)
 		end
+
+		it "list_categories" do
+			get :list_categories
+			expect(response).to assert_false
+		end
+
+		it "create" do
+
+		end
+
+		it "update" do
+
+		end
+		
+		it "categorize" do
+
+		end
+
+		it "settings" do
+
+		end
+
 	end
 
 
