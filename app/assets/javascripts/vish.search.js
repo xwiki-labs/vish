@@ -21,7 +21,8 @@ Vish.Search = (function(V,undefined){
         resource_types: [Webapp", "Scormfile", "Link", "Embed", "Writing", "Officedoc", "Video", "Swf", "Audio", "Zipfile", "Picture"],
         num_pages: 8,
         url: http://vishub.org/search?type=Webapp%2CScormfile&sort_by=updated_at,
-        tags: "tag1,tag2,my_tag" 
+        tags: "tag1,tag2,my_tag",
+        sort_by_disable_tooltip: "Option only available for learning objects"
       }  
   */
   var init = function(options){
@@ -34,13 +35,24 @@ Vish.Search = (function(V,undefined){
     }
     if(!_options.resource_types){      
       _options.resource_types = ["Webapp", "Scormfile", "Link", "Embed", "Writing", "Officedoc", "Video", "Swf", "Audio", "Zipfile", "Picture"];
-    }
+    }  
 
     //take the params from the URL and mark them in the sidebar
     _parsed_url = _getUrlParameters();
+    if(_parsed_url["catalogue"]){
+      $("li.disable_for_user").removeClass("disabled");
+      $("li.disable_for_user").attr("title", "");
+    }
+    if(_parsed_url["recursoteca"]){
+      $("#resource_type").show();
+    }
     _recalculateTags(_options.tags, true);
     _fillSidebarWithParams();
-    _loadUIEvents(_options);
+    _loadUIEvents(_options);   
+    //important that these lines go in the end of the init because they need the UI events
+    if ($(window).width() < 767) {
+      _closeFilterSets();
+    } 
   };
 
 
@@ -49,9 +61,33 @@ Vish.Search = (function(V,undefined){
     $(document).on('click', "#search-sidebar ul li", function(e){
       _clickFilter($(this));
     });
+
     $(document).on('click', ".filter_box_x", function(e){
       _clickFilter($(this));
     });
+
+    $(".showMoreButton").click(function(){
+      var the_ul = $(this).siblings("ul");
+      if(the_ul.hasClass("opened_filter")){
+        the_ul.switchClass( "opened_filter", "closed_filter", 100 );
+        $(this).switchClass( "opened_button", "closed_button", 0 );
+        $(this).html('<a>+</a>');
+      } else {
+        the_ul.switchClass( "closed_filter", "opened_filter", 100 );
+        $(this).switchClass( "closed_button", "opened_button", 100 );
+        $(this).html('<a>-</a>');
+      }
+      return false;
+    });
+
+    $(window).resize(function() {
+      if ($(this).width() > 767) {
+        _openFilterSets();
+      } else {
+        _closeFilterSets();
+      }
+    });
+
     //for pageless
     $('#search-all ul').trigger("scroll.pageless");
 
@@ -59,11 +95,31 @@ Vish.Search = (function(V,undefined){
   };
 
 
+  /*function to open the filter sets when entering in mobile view*/
+  var _openFilterSets = function(){
+    $(".showMoreButton").each(function(index){
+      if($(this).hasClass("closed_button")){
+        $(this).click();
+      }
+    });      
+  };
+
+
+  /*function to close the filter sets when entering in mobile view*/
+  var _closeFilterSets = function(){
+    $(".showMoreButton").each(function(index){
+      if($(this).hasClass("opened_button")){
+        $(this).click();
+      }
+    });      
+  };
+
+
   var _applyPageless = function(options, stop_first){
     //console.log("reapplying pageless with url: " + options.url + " and num_pages: " + options.num_pages);
     //stop_first = typeof stop_first !== 'undefined' ? stop_first : false; //default value 
     if(stop_first){
-      $.pagelessStop();
+      $.pagelessReset();
     }
     $('#search-all ul').pageless({
         totalPages: options.num_pages,
@@ -75,11 +131,11 @@ Vish.Search = (function(V,undefined){
           $("#last_content_shown").show();
         },
         scrape: function(data){
-          var parsed_html_return = $('<div></div>').html(data);
+          var parsed_html_return = $('<div></div>').html(data);          
           //Recalculate the tags in the search sidebar
           var the_tags = parsed_html_return.find(".the_tags").val();
           _recalculateTags(the_tags, false);
-          return data;
+          return data;          
         },    
         complete: function(){
           //when we complete one page and there is no scroll, there cannot be another call
@@ -112,7 +168,6 @@ Vish.Search = (function(V,undefined){
           _all_tags[tag_item] = 1;
         }
       });
-    console.log(_all_tags);
     //create a sortable array and remove the tags that are already selected
     var sortable = [];
     for (var t in _all_tags){
@@ -130,7 +185,7 @@ Vish.Search = (function(V,undefined){
       }
       var tag_array = sortable[i];
       num +=1;
-      $("#tags_ul").append('<li filter_key="tags" filter="'+tag_array[0]+'">'+tag_array[0]+ ' ' +tag_array[1] +'</li>');
+      $("#tags_ul").append('<li filter_key="tags" class="filter_item" filter="'+tag_array[0]+'">'+tag_array[0]+ '</li>');
     }    
   };
 
@@ -139,10 +194,11 @@ Vish.Search = (function(V,undefined){
     //remove all previous filters
     //$("#search-sidebar ul li").removeClass("search-sidebar-selected");
 
-    //first the top level filter, type (All, user or learning object)
-    if(!_parsed_url["type"] || _parsed_url["type"].indexOf("") > -1){
-      _toggleFilter("type", "All");
-    }else if(_parsed_url["type"] == "User"){
+    //first the top level filter, type (user or learning object)
+    if(!_parsed_url["type"] || _parsed_url["type"] == ""){
+      //do nothing
+    }
+    else if(_parsed_url["type"] == "User"){
       _toggleFilter("type", "User");
     } else {
       _toggleFilter("type", "Learning_object");
@@ -153,11 +209,13 @@ Vish.Search = (function(V,undefined){
         }
       });
 
-      //finally if _parsed_url["type"] can be anything in _options.resource_types, so we would have to mark the lo_type to "resource"
+      //finally if _parsed_url["type"] can be anything in _options.resource_types, so we would have to mark the lo_type to "resource" if not in recursoteca
       _options.resource_types.forEach(function(item_subtype) {
         if(_parsed_url["type"].indexOf(item_subtype)>-1){          
-          var filter_resource_obj = $("#search-sidebar ul li[filter_key='type'][filter='Resource']");
-          _activateFilter(filter_resource_obj, false, false);
+          if(!_parsed_url["recursoteca"]){
+            var filter_resource_obj = $("#search-sidebar ul li[filter_key='type'][filter='Resource']");
+            _activateFilter(filter_resource_obj, false, false);
+          }          
           $("#resource_type").show();
           _toggleFilter("type", item_subtype);
         }
@@ -187,11 +245,8 @@ Vish.Search = (function(V,undefined){
     var filter_obj = $("#search-sidebar ul li[filter_key='"+filter_key+"'][filter='"+filter_name+"']");
     
     if(filter_obj.length>0){
-      if(filter_obj.hasClass("search-sidebar-selected")) {
-        if(filter_obj.attr("filter") != "All"){
-          //do not allow to deactivate the "All" filter
+      if(filter_obj.hasClass("search-sidebar-selected")) {        
           _deactivateFilter(filter_obj, update_url);          
-        }
       } else {
         _activateFilter(filter_obj, update_url);
         
@@ -224,12 +279,6 @@ Vish.Search = (function(V,undefined){
           filter_obj.remove();          
         }
 
-        //see what happens with exclusivity, 
-        //if the li has the attribute "exclusive" and we are deactivating it we have to activate the default
-        if(follow_stack && filter_obj.attr("exclusive")==""){
-          _activateFilter(filter_obj.siblings("[default]"), update_url, false);
-        }
-
         if(update_url){
           _removeUrlParameter(filter_key, filter_name, follow_stack);
         }
@@ -245,16 +294,24 @@ Vish.Search = (function(V,undefined){
         var filter_content = filter_obj.html();
 
         filter_obj.addClass("search-sidebar-selected");
-        if(filter_name!="All"){
-          var extra_class = "filter_box_" + filter_obj.closest("div.filter_set").attr("filter_type");
-          $("#applied_filters").append("<div class='filter_box'><span class='filter_ball "+extra_class+"'>"+filter_content+"</span><div class='filter_box_x' filter_key='"+filter_key+"' filter='"+filter_name+"'>x</div></div>");
-        }
+        var extra_class = "filter_box_" + filter_obj.closest("div.filter_set").attr("filter_type");
+        $("#applied_filters").append("<div class='filter_box'><span class='filter_ball "+extra_class+"'>"+filter_content+"</span><div class='filter_box_x' filter_key='"+filter_key+"' filter='"+filter_name+"'>x</div></div>");
 
         //show the related filters
         $("#search-sidebar div[opens_with='"+filter_name+"']").show();    
 
-        //if it is a tag, we move it to the ul selected_tags_ul
-        if(filter_key==="tags"){
+        //special actions depending on filter_key
+        if(filter_key==="type"){
+          if(filter_name==="Learning_object"){
+            $("li.disable_for_user").removeClass("disabled");
+            $("li.disable_for_user").attr("title", "");
+          } else {
+            //user or all
+            $("li.disable_for_user").addClass("disabled");
+            $("li.disable_for_user").attr("title", _options.sort_by_disable_tooltip);
+          }
+        } else if(filter_key==="tags"){
+          //if it is a tag, we move it to the ul selected_tags_ul
           var tag_to_move = filter_obj.detach();
           $("#selected_tags_ul").append(tag_to_move);
         }
@@ -292,7 +349,12 @@ Vish.Search = (function(V,undefined){
       }
     }
     _parsed_url[filter_key].push(filter_name);
-
+    if(filter_key==="type" && filter_name!="Learning_object"){
+      //check sort_by param and if it is favorites or visits change it to relevance because those do not work for users
+      if(_parsed_url["sort_by"] && (_parsed_url["sort_by"][0]==="favorites" || _parsed_url["sort_by"][0]==="visits") ){
+        _parsed_url["sort_by"]=["relevance"];
+      }
+    }
     if(call_server){
       _composeFinalUrlAndCallServer(_parsed_url["sort_by"]);
     }
@@ -329,15 +391,13 @@ Vish.Search = (function(V,undefined){
     var final_url = {};
     $.each( _parsed_url, function(key, value){ 
       //remove empty strings
-      value = value.filter(function(e) { return e; });
-      if(key==="type" && value.length==1 && value[0]==="All"){
-        final_url[key] = "";
-      } else {
+      value = value.filter(function(e) { return e; });      
+      if(value.length>0){
         final_url[key] = value.join();
       }
-    });   
+    });    
     var new_url = "search?" + queryString.stringify(final_url);
-    window.history.pushState("", "", new_url);
+    window.history.pushState("", "", new_url);    
     _manageQuery(new_url, sort_by);
   };
 
@@ -351,7 +411,7 @@ Vish.Search = (function(V,undefined){
     //puedo apuntar en una variable el tiempo de cuando pedi la última query y si llega otra y no ha pasado X tiempo a la cola
     //timeouts para ver la cola
     NUMBER_OF_CALLS +=1;
-    console.log("LLAMANDO AL SERVIDOR " + NUMBER_OF_CALLS);
+    //console.log("LLAMANDO AL SERVIDOR " + NUMBER_OF_CALLS);
     $.ajax({
           type : "GET",
           url : query,
@@ -370,6 +430,9 @@ Vish.Search = (function(V,undefined){
             //Recalculate the tags in the search sidebar
             var the_tags = parsed_html_return.find(".the_tags").val();
             _recalculateTags(the_tags, true);
+            var n_results = parsed_html_return.find(".n_results").val();
+            $("#n_results").html(n_results);
+
             //enter the results in the designated area
             $("#search-all ul").html(html_code);
           },
@@ -387,9 +450,9 @@ Vish.Search = (function(V,undefined){
   {
       var parsed = queryString.parse(location.search);
       $.each( parsed, function(key, value){
-        var commaIndex = value.indexOf(",");
         //if contains comma, split it in an array, if not returns an array with one value (easier to iterate)
-        parsed[key] = value.split(",");        
+        //we also remove empty strings
+        parsed[key] = value.split(",").filter(function(e) { return e; });        
       });
       //console.log(parsed);
       return parsed;
@@ -398,8 +461,13 @@ Vish.Search = (function(V,undefined){
 
   /*Function called when sort_by dropdown changes*/
   var launch_search_with_sort_by = function(sort_by){
-    _parsed_url["sort_by"] = [sort_by];
-    _composeFinalUrlAndCallServer(sort_by);
+    //favorites, visits and modified only work with Learning_objects
+    if((sort_by==="favorites" || sort_by ==="visits" || sort_by ==="updated_at") && _parsed_url["type"] != "Learning_object" && !_parsed_url["catalogue"]){
+      return;
+    } else {
+      _parsed_url["sort_by"] = [sort_by];
+      _composeFinalUrlAndCallServer(sort_by);
+    }
   }
 
 

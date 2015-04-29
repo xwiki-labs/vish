@@ -160,7 +160,6 @@
 .search-sidebar-selected
   font-weight: bold
   font-family: $secondFontFamily !important
-  margin-left: 5px
 
 #search-sidebar li
   cursor: pointer
@@ -171,10 +170,40 @@
   .search-filterbar
     @include box-shadow(0 -1px 5px rgba(50,51,51,0.10))
     background-color: white
-    padding: 20px
+    //padding: 20px
     border-radius: 5px
+    margin-bottom: 20px
+
+    h3
+      color: $white
+      margin: 0px 0px 20px
+      background-color: gray
+      border-radius: 5px 5px 0px 0px
+      padding: 10px 20px
+      cursor: auto
+      i
+        margin: 0 10px 0 0
     .filter_set
-      margin: 0 0 20px 0
+      margin: 0px 20px 20px
+      .btn-openclose
+        border-radius: 5px
+        padding: 0px 5px
+        border: 1px solid #ccc
+        background: #eee
+        width: 20px
+        outline: none
+        margin-right: 5px
+        font-size: 0.9em
+        float: left
+        &:hover
+          border-color: $firstColor
+          background-color: white
+          a
+            color: $firstColor
+        a
+          color: gray
+          text-decoration: none
+
       .filter_title
         font-family: $firstFontFamily
       .filter_title_bold
@@ -182,15 +211,31 @@
         color: $firstColor
       ul
         margin: 10px
+        transition: all 500ms ease-in-out
+        -webkit-transition: height 500ms ease-in-out
+        -moz-transition: height 500ms ease-in-out
+        -o-transition: height 500ms ease-in-out
+
+        .filter_item
+          border-bottom: 1px dashed #ddd
+          padding: 3px 0
+          font-size: 0.9em
+        .filter_item:last-child
+          border-bottom: 0
+      .opened_filter
+        overflow: auto
+        height: auto
+      .closed_filter
+        overflow: hidden !important
+        height: 0 !important
+
       .ul_selected_tags
         margin-bottom: 0
       .ul_tags
         margin-top: 0
+
   .filter-results
-    h3
-      color: $gray
-      i
-        margin: 10px
+
 
     .filters-applied
       @include box-shadow(0 -1px 5px rgba(50,51,51,0.10))
@@ -226,12 +271,13 @@
           float: left
           margin: 0 7px 12px 0
           .filter_ball,.filter_box_super_type,.filter_box_lo_type,
-          .filter_box_resouce_type,.filter_box_language,.filter_box_tags
-            padding: 7px 10px 6px
+          .filter_box_resouce_type,.filter_box_language,.filter_box_tags,.filter_box_category_ids
+            padding: 7px
             color: white
             font-size: 0.9em
             border-radius: 5px
-            //border-radius: 5px 0 0 5px
+            float: left
+            padding: 5px 10px
           .filter_box_super_type
             background: $firstColor
           .filter_box_lo_type
@@ -242,18 +288,26 @@
             background: gray
           .filter_box_tags
             background: #555
+          .filter_box_category_ids
+            background: $firstColor
         .filter_box_x
           cursor: pointer
           float: right
-          border-radius: 0 5px 5px 0
-          padding: 6px 4px 5px 9px
-          margin: -6px 0 0 -5px
-          font-size: 0.8em
+          border-radius: 15px
+          //padding: 6px 5px 5px 9px
+          //margin: -5px 0 0 -5px
+          margin: -6px 0px 0px -10px
+          padding: 0px 5px 1px
+          font-size: 0.7em
           font-family: "OpenSansBold", sans-serif
           color: white
           background: $grayDark
+          line-height: 1.5em
+          float: left
+          opacity: 0.7
           &:hover
             color: $grayLighter
+            opacity: 1
 
     .searched-items
       margin-top: 20px

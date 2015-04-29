@@ -803,6 +803,7 @@ es:
     view_full: "Pantalla completa"
   search:
     any: "cualquiera"
+    applied_filters: "FILTROS APLICADOS"
     close: "cerrar"
     end: "No hay más resultados. Intenta con otros términos de búsqueda"
     filters:
@@ -847,6 +848,7 @@ es:
       title: "Opciones de visualización"
       boxes: "Ver como avatares"
       table: "Ver como tabla"
+    results: "Resultados"
     search_input_placeholder: "Buscar recursos educativos"
     show_all: "Todos"
     sorting:
@@ -865,7 +867,9 @@ es:
       lang: "idioma"
       learning_object: "objeto de aprendizaje"
       resource: "tipo de recurso"
+      subject: "tema"
       tag: "etiquetas"
+      tooltip: "Opción sólo disponible para objetos de aprendizaje"
       type: "tipo"
     type: "tipo"
   send:
@@ -899,6 +903,16 @@ es:
   swf:
     confirm_delete: "¿Borrar SWF?"
     name: "objecto flash"
+  temateca_recursoteca:
+    name:
+      recursoteca: "Recursoteca"
+      temateca: "Temateca"
+    actions:
+      add_excursion:  "Añadir excursión"
+      add_resource: "Añadir recurso"
+    help:
+      add_excursion: "Aquí puedes añadir una excursión directamente a esta categoría de la temateca"
+      add_resource: "Aquí puedes añadir un recurso directamente a esta categoría de la recursoteca"
   today: "Hoy"
   top10: "Mejores 10"
   unknown: "Desconocido"
