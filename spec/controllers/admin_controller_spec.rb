@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe AdminController, controllers: true do
+describe AdminController, controllers: true, debug: true  do
 
 
   # This should return the minimal set of attributes required to create a valid
@@ -27,6 +27,21 @@ describe AdminController, controllers: true do
   def valid_attributes
     {}
   end
-  #TODO
+
+  it 'indexWorkasAdmin' do
+  	@user = Factory(:user_vish)
+  	@user.make_me_admin
+  	get :index
+  	expect(response).to be(:success)
+  end
+
+  it 'indesDoesntworkifnotadmin' do
+  	@user = Factory(:user_vish)
+  	get :index
+  	expect(response).to be(:failure)
+  end
+  
+  it 'closer_reports'
+  it 'users'
 
 end
