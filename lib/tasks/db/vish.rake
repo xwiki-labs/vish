@@ -82,7 +82,7 @@ namespace :db do
 
         # Some sample science images in the public domain. Used Google Images option to public domain
         @sample_images = %w{
-          http://libreshot.com/wp-content/uploads/2015/01/sad-puppy.jpg
+          http://fc08.deviantart.net/fs71/i/2011/185/b/b/wolf_by_house89-d3kzhe8.jpg
           http://upload.wikimedia.org/wikipedia/commons/2/27/Wolf_Yawns_(5302403718).jpg
           https://farm1.staticflickr.com/210/464791157_452d6fef46_o.jpg
           http://res.freestockphotos.biz/pictures/17/17615-a-beautiful-sunset-pv.jpg
