@@ -19,42 +19,27 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe AdminController, controllers: true, debug: true do
-
-  it 'index_work_as_admin' do
-  	@user = Factory(:user_vish)
-  	@user.make_me_admin
-
-    sign_in @user
-
-  	get :index
-    assert_response :success
-  end
-
-  it 'index_doesnt_work_if_not_admin' do
-  	@user = Factory(:user_vish)
-
-    sign_in @user
-
-  	get :index
-  	response.should redirect_to(:home)
-  end
-  
-  it 'closed_reports' do
+  before do
     @user = Factory(:user_vish)
     @user.make_me_admin
-    sign_in @user
-
-    get :closed_reports
-    assert_response :success
   end
+
+  it 'index_for' do
+        sign_in @user
+      	get :index
+        assert_response :success
+  end
+
+  it 'closed_reports' do
+      get :closed_reports
+      assert_response :success
+  end
+
 
   it 'users' do 
-    @user = Factory(:user_vish)
-    @user.make_me_admin
-    sign_in @user
-
-    get :users
-    assert_response :success
+      get :users
+      assert_response :success
   end
+
 
 end
