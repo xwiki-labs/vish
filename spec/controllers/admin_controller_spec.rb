@@ -18,30 +18,43 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe AdminController, controllers: true, debug: true  do
+describe AdminController, controllers: true, debug: true do
 
-
-  # This should return the minimal set of attributes required to create a valid
-  # Excursion. As you add validations to Excursion, be sure to
-  # update the return value of this method accordingly.
-  def valid_attributes
-    {}
-  end
-
-  it 'indexWorkasAdmin' do
+  it 'index_work_as_admin' do
   	@user = Factory(:user_vish)
   	@user.make_me_admin
+
+    sign_in @user
+
   	get :index
-  	expect(response).to be(:success)
+    assert_response :success
   end
 
-  it 'indesDoesntworkifnotadmin' do
+  it 'index_doesnt_work_if_not_admin' do
   	@user = Factory(:user_vish)
+
+    sign_in @user
+
   	get :index
-  	expect(response).to be(:failure)
+  	response.should redirect_to(:home)
   end
   
-  it 'closer_reports'
-  it 'users'
+  it 'closed_reports' do
+    @user = Factory(:user_vish)
+    @user.make_me_admin
+    sign_in @user
+
+    get :closed_reports
+    assert_response :success
+  end
+
+  it 'users' do 
+    @user = Factory(:user_vish)
+    @user.make_me_admin
+    sign_in @user
+
+    get :users
+    assert_response :success
+  end
 
 end
