@@ -9,4 +9,6 @@ describe EmbedsController, controllers: true do
                    #         embed GET      /embeds/:id(.:format)                                                embeds#show
                    #               PUT      /embeds/:id(.:format)                                                embeds#update
                    #               DELETE   /embeds/:id(.:format)                                                embeds#destroy
+
+                  
 end
