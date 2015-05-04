@@ -18,43 +18,57 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe AdminController, controllers: true, debug: true do
+describe AdminController, controllers: true do
+  context 'being_admin' do
+  
+  before(:each) do
+    @user = Factory(:user_vish)
+    @user.make_me_admin
+  end
 
-  it 'index_work_as_admin' do
-  	@user = Factory(:user_vish)
-  	@user.make_me_admin
-
+  it 'index_for' do
     sign_in @user
-
-  	get :index
+    get :index
     assert_response :success
   end
 
-  it 'index_doesnt_work_if_not_admin' do
-  	@user = Factory(:user_vish)
-
-    sign_in @user
-
-  	get :index
-  	response.should redirect_to(:home)
-  end
-  
   it 'closed_reports' do
-    @user = Factory(:user_vish)
-    @user.make_me_admin
     sign_in @user
-
     get :closed_reports
     assert_response :success
   end
 
-  it 'users' do 
-    @user = Factory(:user_vish)
-    @user.make_me_admin
-    sign_in @user
 
+  it 'users' do 
+    sign_in @user
     get :users
     assert_response :success
   end
+end
+
+context 'not_being_admin' do 
+ before(:each) do
+    @user = Factory(:user_vish)
+  end
+
+  it 'index_for?' do
+    sign_in @user
+    get :index
+    expect(response).to redirect_to(:home)
+  end
+
+  it 'closed_reports?' do
+    sign_in @user
+    get :closed_reports
+    expect(response).to redirect_to(:home)
+  end
+
+
+  it 'users?' do 
+    sign_in @user
+    get :users
+    expect(response).to redirect_to(:home)
+  end
+end
 
 end
