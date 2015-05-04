@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe ApplicationController, controllers: true do
-#TODO
+#NO ROUTE MATCH THIS CONTROLLER
 end

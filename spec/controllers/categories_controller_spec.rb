@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CategoriesController, controllers: true do
-
+	#TODO
 	render_views
 
     before do
@@ -17,7 +17,7 @@ describe CategoriesController, controllers: true do
 
 		it "show_favorites" do 
 			get :show_favorites
-      assert_response 200
+      		assert_response 200
 			expect(response).to render_template("favorites")
 		end
 	end
