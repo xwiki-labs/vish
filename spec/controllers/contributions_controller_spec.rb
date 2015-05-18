@@ -10,11 +10,28 @@ describe ContributionsController, controllers: true do
  #                                 PUT      /contributions/:id(.:format)                                         contributions#update
  #                                 DELETE   /contributions/:id(.:format)                                         contributions#destroy
 
- 	it 'contribution index'
- 	it 'contributions create'
- 	it 'contributions edit'	
- 	it 'contributions show'	
- 	it 'contributions update'	
- 	it 'contributions destroy'	
+ 	it 'contribution index' do 
+    skip('not implemented contribution factory yet');
+  end
+
+ 	it 'contributions create' do
+    skip('not implemented contribution factory yet');
+  end
+ 	
+  it 'contributions edit'	do
+    skip('not implemented contribution factory yet');
+  end
+ 	
+  it 'contributions show'	do
+    skip('not implemented contribution factory yet');
+  end
+ 	
+  it 'contributions update'	do
+    skip('not implemented contribution factory yet');
+  end
+ 	
+  it 'contributions destroy'	do
+    skip('not implemented contribution factory yet');
+  end
 
 end
