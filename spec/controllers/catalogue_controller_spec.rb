@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CatalogueController, controllers: true, debug:true do
+describe CatalogueController, controllers: true do
 
 	describe 'index' do
 		it 'get show' do
