@@ -6,6 +6,7 @@ class Excursion < ActiveRecord::Base
   has_many :contributors, :class_name => "Actor", :through => :excursion_contributors
 
   validates_presence_of :json
+  before_validation :fill_license
   after_save :parse_for_meta
   after_save :fix_post_activity_nil
   after_destroy :remove_scorm
@@ -1017,6 +1018,9 @@ class Excursion < ActiveRecord::Base
 
   def clone_for sbj
     return nil if sbj.blank?
+    unless self.clonable? or sbj.admin? or (sbj===self.owner)
+      return nil
+    end
 
     contributors = self.contributors || []
     contributors.push(self.author)
@@ -1039,6 +1043,14 @@ class Excursion < ActiveRecord::Base
     e.draft=true
     e.save!
     e
+  end
+
+  def clonable?
+    if self.license and (self.license.no_derivatives? or self.license.private?)
+      return false
+    end
+
+    true
   end
 
   #method used to return json objects to the recommendation in the last slide
@@ -1080,13 +1092,32 @@ class Excursion < ActiveRecord::Base
   #Method calculate_qscore
 
 
+
   private
+
+  def fill_license
+    #Set public license when publishing a excursion
+    if ((self.scope_was!=0 or self.new_record?) and (self.scope==0))
+      if self.license.nil? or self.license.private?
+        license_metadata = JSON(self.json)["license"] rescue nil
+        if license_metadata.is_a? Hash and license_metadata["key"].is_a? String
+          license = License.find_by_key(license_metadata["key"])
+          unless license.nil?
+            self.license_id = license.id
+          end
+        end
+        if self.license.nil? or self.license.private?
+          self.license_id = License.default.id
+        end
+      end
+    end
+  end
 
   def parse_for_meta
     parsed_json = JSON(json)
 
-    activity_object.title = parsed_json["title"] ? parsed_json["title"] : "Title"
-    activity_object.description = parsed_json["description"] 
+    activity_object.title = parsed_json["title"] ? parsed_json["title"] : "Untitled"
+    activity_object.description = parsed_json["description"]
     activity_object.tag_list = parsed_json["tags"]
     activity_object.language = parsed_json["language"]
 
@@ -1118,8 +1149,11 @@ class Excursion < ActiveRecord::Base
     end
     parsed_json["vishMetadata"]["id"] = self.id.to_s
     parsed_json["vishMetadata"]["draft"] = self.draft.to_s
-
-    parsed_json["author"] = {name: author.name, vishMetadata:{ id: author.id}}
+    unless self.draft
+      parsed_json["vishMetadata"]["released"] = "true"
+    end
+    
+    parsed_json["author"] = {name: author.name, vishMetadata:{ id: author.id }}
 
     self.update_column :json, parsed_json.to_json
     self.update_column :slide_count, parsed_json["slides"].size

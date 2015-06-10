@@ -1,20 +1,3 @@
-# Copyright 2011-2012 Universidad Politécnica de Madrid and Agora Systems S.A.
-#
-# This file is part of ViSH (Virtual Science Hub).
-#
-# ViSH is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# ViSH is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with ViSH.  If not, see <http://www.gnu.org/licenses/>.
-
 class Contribution < ActiveRecord::Base
   belongs_to :activity_object
   belongs_to :wa_assignment
@@ -25,30 +8,10 @@ class Contribution < ActiveRecord::Base
   
   after_destroy :destroy_children_contributions
 
-
-  validate :has_valid_ao
-  def has_valid_ao
-    if self.activity_object.nil?
-      errors[:base] << "Invalid activity object"
-    else
-      true
-    end
-  end
-
   validate :has_valid_parent
   def has_valid_parent
     if self.parent.nil? or self.parent==self or self.all_contributions.include? self.parent or (!workshop_parent.nil? and !self.parent_id.nil?)
-      errors[:base] << "Invalid parent"
-    else
-      true
-    end
-  end
-
-  validate :is_valid_child
-  def is_valid_child
-    if !workshop_parent.nil? and workshop_parent.contributions.map{|c| c.activity_object}.include? self.activity_object
-      #Duplicated child
-      errors[:base] << "Invalid child"
+      errors.add(:contribution, "with invalid parent")
     else
       true
     end

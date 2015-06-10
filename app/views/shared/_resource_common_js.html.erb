@@ -1,6 +1,6 @@
 
 <%content_for :javascript do%>
-
+    //_resource_common_js
   $('.helpResources').popover({ 
     html : true,
     content: function() {
@@ -10,7 +10,7 @@
 
 
   <%if form_id == "AddResource"%>
-    $("#<%=form_id%>").on('shown', function(){
+    $("#<%=form_id%>").on('shown.bs.modal', function(){
   <%end%>
     //SLIDER
     var min = 0;
@@ -88,6 +88,8 @@
       $(avatarFileInput).appendTo(myForm);
       //LANGUAGE
       $("#<%=form_id%> input[name='"+resource_type+"[language]']").val($("#<%=form_id%> select.language").val());
+      //LICENSE
+      $("#<%=form_id%> input[name='"+resource_type+"[license_id]']").val($("#<%=form_id%> .resource_license").val());
       //AGE
       var value1 = $('#<%=form_id%> .age-slider').data('slider').getValue()[0];
       var value2 = $('#<%=form_id%> .age-slider').data('slider').getValue()[1];

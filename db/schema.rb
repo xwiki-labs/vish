@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150330095940) do
+ActiveRecord::Schema.define(:version => 20150608081230) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activity_verb_id"
@@ -96,6 +96,9 @@ ActiveRecord::Schema.define(:version => 20150330095940) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.decimal  "teachers_qscore",                    :precision => 12, :scale => 6
+    t.integer  "license_id"
+    t.text     "original_author"
+    t.text     "license_attribution"
   end
 
   create_table "activity_objects_wa_resources_galleries", :id => false, :force => true do |t|
@@ -270,6 +273,12 @@ ActiveRecord::Schema.define(:version => 20150330095940) do
   end
 
   add_index "groups", ["actor_id"], :name => "index_groups_on_actor_id"
+
+  create_table "licenses", :force => true do |t|
+    t.string   "key"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "links", :force => true do |t|
     t.integer  "activity_object_id"
@@ -628,6 +637,14 @@ ActiveRecord::Schema.define(:version => 20150330095940) do
   create_table "wa_texts", :force => true do |t|
     t.text     "fulltext"
     t.text     "plaintext"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "wapp_auth_tokens", :force => true do |t|
+    t.integer  "actor_id"
+    t.string   "auth_token"
+    t.datetime "expire_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

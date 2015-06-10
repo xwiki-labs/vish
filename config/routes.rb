@@ -39,6 +39,8 @@ Vish::Application.routes.draw do
   match '/apis/search' => 'federated_search#search'
   match '/apis/iframe_api' => 'excursions#iframe_api'
   match '/apis/recommender' => 'recommender#api_resource_suggestions'
+  match '/apis/wapp_token/:auth_token' => 'wapp_auth_tokens#show'
+  match '/apis/wapp_token' => 'wapp_auth_tokens#create'
 
   #Search
   match '/search/advanced' => 'search#advanced'
@@ -71,7 +73,6 @@ Vish::Application.routes.draw do
 
   #Workshops
   match '/workshops/:id/edit_details' => 'workshops#edit_details'
-  match '/workshops/:id/contributions' => 'workshops#contributions'
   resources :workshops
 
   #Workshops Activities

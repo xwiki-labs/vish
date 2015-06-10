@@ -21,7 +21,10 @@
 	configuration["ViSH"] = true;
 	configuration["ViSH_instances"] = ["<%= Vish::Application.config.full_domain %>"];
 	configuration["Flickr"] = true;
-	configuration["Youtube"] = true;
+	<%unless Vish::Application.config.APP_CONFIG['YouTubeAPIKEY'].nil? %>
+		configuration["Youtube"] = true;
+		configuration["YoutubeAPIKEY"] =  "<%= Vish::Application.config.APP_CONFIG['YouTubeAPIKEY'] %>";
+	<%end%>
 	configuration["Vimeo"] = false;
 	configuration["LRE"] = true;
 	configuration["LRE_path"] = "/lre/search";
@@ -38,6 +41,11 @@
 	tagsSettings.triggerKeys = <%=raw(Vish::Application.config.tagsSettings["triggerKeys"].to_json)%>; 
 	configuration["tagsSettings"] = tagsSettings;
 
+	//WAPP TOKEN API
+	configuration["WAPP_TOKEN_API"] = {
+		rootURL: "<%=Vish::Application.config.full_domain%>" + "/apis/wapp_token"
+	};
+
 	options["configuration"] = configuration;
 	
 
@@ -48,13 +56,13 @@
 			name: "<%= current_subject.name %>",
 			id: "<%= Actor.normalize_id(current_subject) %>",
 			token: "<%= form_authenticity_token %>"
-		}
+		};
 	<% else %>
 		options["user"] = {
 			name: "<%= @excursion.owner.name %>",
 			id: "<%= Actor.normalize_id(@excursion.owner) %>",
 			token: "<%= form_authenticity_token %>"
-		}
+		};
 	<% end %>
 
 	options["draft"] = <%= @excursion.draft.to_s %>;

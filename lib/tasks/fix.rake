@@ -568,6 +568,83 @@ namespace :fix do
     printTitle("Task Finished")
   end
 
+
+  #Usage
+  #Development:   bundle exec rake fix:licenses
+  #In production: bundle exec rake fix:licenses RAILS_ENV=production
+  task :licenses => :environment do
+
+    printTitle("Fixing licenses")
+
+    Rake::Task["db:populate:create:licenses"].invoke
+
+    defaultPublicLicenseId = License.default.id rescue nil
+    defaultPrivateLicenseId = License.find_by_key("private").id rescue nil
+
+    #Assign licenses to AOs
+    ActivityObject.all.each do |ao|
+      if ao.should_have_license?
+        if ao.license_id.nil?
+          if ao.private_scope?
+            ao.update_column :license_id, defaultPrivateLicenseId
+          else
+            ao.update_column :license_id, defaultPublicLicenseId
+          end
+        end
+
+        #License attribution
+        if !ao.license.nil? and ao.license.public? and ao.license.requires_attribution? and ao.license_attribution.nil? and ao.original_author.nil? and !ao.owner.nil?
+          ao.update_column :license_attribution, ao.default_license_attribution
+        end
+      end
+    end
+
+    #Get all excursions
+    Excursion.all.each do |excursion|
+        eJson = JSON(excursion.json)
+        jsonChanged = false
+
+        unless excursion.draft
+          unless eJson["vishMetadata"].is_a? Hash
+            eJson["vishMetadata"] = {}
+          end
+          #Mark published excursions as released
+          unless eJson["vishMetadata"]["released"]==="true"
+            eJson["vishMetadata"]["released"] = "true"
+            jsonChanged = true
+          end
+        else
+          #Private license for first drafts
+          unless eJson["vishMetadata"].is_a? Hash and eJson["vishMetadata"]["released"]==="true"
+            unless defaultPrivateLicenseId.nil?
+              excursion.activity_object.update_column :license_id, defaultPrivateLicenseId
+            end
+          end
+        end
+
+        unless eJson["license"].is_a? Hash and eJson["license"]["key"].is_a? String and eJson["license"]["key"]==excursion.license.key
+          eJson["license"] = {name: excursion.license.name, key: excursion.license.key}
+          jsonChanged = true
+        end
+
+        excursion.update_column :json, eJson.to_json if jsonChanged
+    end
+
+    printTitle("Task Finished")
+  end
+
+  #Usage
+  #Development:   bundle exec rake fix:mverdelicenses
+  #In production: bundle exec rake fix:mverdelicenses RAILS_ENV=production
+  task :mverdelicenses => :environment do
+    mvLicenseId = License.find_by_key("cc-by-nc-sa").id
+    Category.find(80).all_category_children.map{|category| category.property_objects}.flatten.select{|ao| ao.should_have_license?}.each do |ao|
+      ao.update_column :license_id, mvLicenseId
+      ao.update_column :original_author, "Marea Verde"
+      ao.update_column :license_attribution, "Apuntes Marea Verde (http://www.apuntesmareaverde.org.es)"
+    end
+  end
+
   ####################
   #Task Utils
   ####################

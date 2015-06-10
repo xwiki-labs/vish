@@ -3,9 +3,12 @@
 ActivityObject.class_eval do
   has_many :spam_reports
   has_and_belongs_to_many :wa_resources_galleries
+  belongs_to :license
   has_one :contribution
   has_one :lo_interaction
-
+  
+  before_validation :fill_license
+  before_validation :fill_license_attribution
   before_save :fill_relation_ids
   before_save :fill_indexed_lengths
   after_destroy :destroy_spam_reports
@@ -17,6 +20,60 @@ ActivityObject.class_eval do
     :styles => SocialStream::Documents.picture_styles
 
   validates_attachment_content_type :avatar, :content_type =>["image/jpeg", "image/png", "image/gif", "image/tiff", "image/x-ms-bmp"], :message => 'Avatar should be an image. Non supported format.'
+  
+  validate :has_valid_license
+
+  def has_valid_license
+   unless self.should_have_license?
+      true
+    else
+      if self.license.nil?
+        errors[:base] << "Licence can't be blank"
+      else
+        if self.public_scope? and self.license.private?
+          errors[:base] << "Resources with public scope can't have private licenses"
+        else
+          oldLicense = nil
+          oldLicense = License.find_by_id(self.license_id_was) unless self.license_id_was.nil?
+          if !oldLicense.nil? and oldLicense.public? and self.license_id != oldLicense.id
+            errors[:base] << "Public licenses can't be changed"
+          else
+            true
+          end
+        end
+      end
+    end
+  end
+
+  validate :has_valid_original_author
+
+  def has_valid_original_author
+    if !self.should_have_license? or self.original_author.nil? or self.new_record?
+      true
+    else
+      if self.original_author_was != self.original_author
+        errors[:base] << "Author can't be changed after publishing a resource"
+      else
+        true
+      end
+    end
+  end
+
+  validate :has_valid_license_attribution
+
+  def has_valid_license_attribution
+    unless self.should_have_license?
+      true
+    else
+      if self.original_author.nil?
+        true
+      else
+        if self.license.requires_attribution? and self.license_attribution.blank?
+          errors[:base] << "This license requires an attribution link"
+        end
+      end
+    end
+  end
 
   scope :with_tag, lambda { |tag|
     ActivityObject.tagged_with(tag).where("scope=0").order("ranking DESC")
@@ -43,6 +100,31 @@ ActivityObject.class_eval do
 
   def private_scope?
     self.scope == 1
+  end
+
+  def should_have_license?
+    return ((self.object_type.is_a? String) and (["Document", "Excursion", "Scormfile", "Webapp", "Workshop"].include? self.object_type))
+  end
+
+  def resource?
+    #"Actor", "Post", "Category", "Document", "Excursion", "Scormfile", "Link", "Webapp", "Comment", "Event", "Embed", "Workshop"
+    return ((self.object_type.is_a? String) and (["Category", "Document", "Excursion", "Scormfile", "Link", "Webapp", "Event", "Embed", "Workshop"].include? self.object_type))
+  end
+
+  def linked?
+    return ((self.object_type.is_a? String) and (["Embed", "Link"].include? self.object_type))
+  end
+  
+  def original_author_name
+    self.original_author or self.author.name
+  end
+
+  def default_license_attribution
+    if self.object_type == "Actor" and !self.object.nil?
+      self.object.name + " (" + self.getUrl + ")"
+    elsif self.respond_to? "owner" and !self.owner.nil?
+      self.owner.name + " (" + self.owner.getUrl + ")"
+    end
   end
 
   #Calculate quality score (in a 0-10 scale) 
@@ -456,15 +538,19 @@ ActivityObject.class_eval do
     (aosRecent + aosPopular).map{|ao| ao.object}
   end
 
-  def self.getIdsToAvoid(ids_to_avoid=[],actor=nil)
-    ids_to_avoid = ids_to_avoid || []
+  def self.getIdsToAvoid(ids_to_avoid_param=[],actor=nil)
+    if ids_to_avoid_param.is_a? Array
+      ids_to_avoid = ids_to_avoid_param.clone rescue []
+    else
+      ids_to_avoid = []
+    end
 
-    if !actor.nil?
+    unless actor.nil?
       ids_to_avoid.concat(ActivityObject.authored_by(actor).map{|ao| ao.id})
       ids_to_avoid.uniq!
     end
 
-    if !ids_to_avoid.is_a? Array or ids_to_avoid.empty?
+    if ids_to_avoid.empty?
       #if ids=[] the queries may returns [], so we fill it with an invalid id (no excursion will ever have id=-1)
       ids_to_avoid = [-1]
     end
@@ -497,14 +583,15 @@ ActivityObject.class_eval do
   def self.getObjectFromUrl(url)
     return nil if url.blank?
 
-    urlregexp = /([ ]|^)(http[s]?:\/\/([^\/]+)\/([a-zA-Z0-9]+)\/([0-9]+))([? ]|$)/
+    urlregexp = /([ ]|^)(http[s]?:\/\/[^\/]+\/([a-zA-Z0-9]+)\/([0-9]+))([ ]|$)/
     regexpResult = (url =~ urlregexp)
 
-    return nil if regexpResult.nil? or $3.nil? or ($3 != Vish::Application.config.APP_CONFIG["domain"]) or $4.nil? or $5.nil?
+    return nil if regexpResult.nil? or $3.nil? or $4.nil?
+
+    modelName = $3.singularize.capitalize
+    instanceId = $4
 
     begin
-      modelName = $4.singularize.capitalize
-      instanceId = $5
       resource = getObjectFromGlobalId(modelName + ":" + instanceId)
     rescue
       resource = nil
@@ -528,7 +615,7 @@ ActivityObject.class_eval do
     unless self.object.nil?
       if self.object_type != "Actor"
         #Resources
-        unless ["Excursion","Workshop"].include? self.object_type and self.object.draft==true
+        unless self.object.respond_to? "draft" and self.object.draft==true
           #Always public except drafts
           self.object.relation_ids = [Relation::Public.instance.id]
           self.relation_ids = [Relation::Public.instance.id]
@@ -556,6 +643,24 @@ ActivityObject.class_eval do
     end
     if self.tag_list.is_a? ActsAsTaggableOn::TagList and self.tag_list.length>0
       self.tags_length = self.tag_list.length
+    end
+  end
+
+  def fill_license
+    if self.should_have_license? and self.license_id.nil?
+      if self.private_scope?
+        self.license_id = License.find_by_key("private").id
+      else
+        self.license_id = License.default.id
+      end
+    end
+  end
+
+  def fill_license_attribution
+    if self.should_have_license? and self.respond_to? "owner"
+      if self.license_attribution.nil? and self.original_author.nil? and !self.owner.nil?
+        self.license_attribution = self.default_license_attribution
+      end
     end
   end
 
