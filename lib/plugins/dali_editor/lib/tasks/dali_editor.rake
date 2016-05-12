@@ -7,7 +7,8 @@
 DALI_EDITOR_PLUGIN_PATH = "lib/plugins/dali_editor";
 DALI_EDITOR_PATH = "../dali";
 
-namespace :vish_editor do
+namespace :dali_editor do
+
 	task :import do
 		puts "Importing Dali into VISH"	
 
