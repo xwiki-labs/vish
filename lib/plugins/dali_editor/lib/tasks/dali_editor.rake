@@ -12,10 +12,12 @@ namespace :dali_editor do
 	task :import do
 		puts "Importing Dali into VISH"	
 
+
+
 		system "rm -rf " + DALI_EDITOR_PLUGIN_PATH + "/app/editor"
 		system "mkdir " + DALI_EDITOR_PLUGIN_PATH + "/app/editor"
-		system "cp -r " + DALI_EDITOR_PATH + "/dist/." +  DALI_EDITOR_PLUGIN_PATH + "/app/editor/"
-		system "rm "+ DALI_EDITOR_PLUGIN_PATH + "/bundle.js.map"
+		system "cp -r " + DALI_EDITOR_PATH + "/dist/. " +  DALI_EDITOR_PLUGIN_PATH + "/app/editor/"
+		system "rm "+ DALI_EDITOR_PLUGIN_PATH + "/app/editor/bundle.js.map"
 
 =begin
 		#In case we copy the ruby way
