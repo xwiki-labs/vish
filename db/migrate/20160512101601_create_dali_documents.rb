@@ -4,7 +4,7 @@ class CreateDaliDocuments < ActiveRecord::Migration
     	t.datetime "created_at",				:null => false
     	t.datetime "updated_at",				:null => false
     	t.integer  "activity_object_id"
-		t.text     "json"
+		  t.text     "json"
     	t.timestamps
     end
   end

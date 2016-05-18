@@ -8,7 +8,7 @@ development:
   no_reply_mail: "no-reply@vishub.org"
   main_mail: "virtual.science.hub@gmail.com"
   models:
-    available: ["Excursion","Resource","Category","Event","Workshop"]
+    available: ["Excursion","Resource","Category","Event","Workshop, "Dali Document"]
     resources: ["Document","Webapp","Scormfile","Link","Embed", "Writing"]
     home: ["Excursion"]
     archive: ["Workshop"]
@@ -60,7 +60,7 @@ production:
   mail:
     type: "SMTP" #this can be SMTP or SENDMAIL
     # Check http://api.rubyonrails.org/classes/ActionMailer/Base.html for details.
-    #    
+    #
     #    #Settings for SMTP
     #    address: "localhost"
     #    port: 25
