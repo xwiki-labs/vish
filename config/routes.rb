@@ -46,7 +46,7 @@ Vish::Application.routes.draw do
   match 'legal_notice' => 'static#terms_of_use'
   match 'privacy_policy' => 'static#privacy_policy'
   match 'terms_of_use' => 'static#terms_of_use'
-  
+
   #Download the user manual and count the number of downloads
   match 'user_manual' => 'static#download_user_manual'
   match 'download_perm_request' => 'static#download_perm_request'
@@ -90,6 +90,7 @@ Vish::Application.routes.draw do
 
   resources :excursions
 
+  resources :dali_documents
   #Workshops
   match '/workshops/:id/edit_details' => 'workshops#edit_details'
   match '/workshops/:id/contributions' => 'workshops#contributions'

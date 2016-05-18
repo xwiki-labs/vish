@@ -3,7 +3,7 @@
 class VishConfig
 
   def self.getMainModels
-    ["Excursion","Event","Category","Resource","Workshop","Course"]
+    ["Excursion","Event","Category","Resource","Workshop","Course","Dali_Document"]
   end
 
   def self.getFixedMainModels
@@ -63,8 +63,8 @@ class VishConfig
 
   def self.getSearchModels(options={})
     searchModels = getAvailableMainModels()
-    #we do not want to search by courses 
-    searchModels.delete("Course")  
+    #we do not want to search by courses
+    searchModels.delete("Course")
     if !options.include?(:include_users) || options[:include_users]==true
       searchModels = searchModels + getFixedMainModels
     end
@@ -220,8 +220,8 @@ class VishConfig
     if options[:include_subtypes] and models.include? "Document"
       models += Document.subclasses.map{|s| s.name}
     end
-    models.uniq!  
-    
+    models.uniq!
+
     return models
   end
 

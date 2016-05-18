@@ -441,6 +441,9 @@ en:
     show_password: "Course password in Moodle (only for enrolled users)"
     tags: "Tags"
     years: "Years"
+  dali_document:
+    actions:
+      add: "Add Dali Document"
   date_name: "date"
   description: "description"
   devise:

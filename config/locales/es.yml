@@ -423,6 +423,9 @@ es:
     show_password: "Contraseña del curso en Moodle (solo visible para inscritos)"
     tags: "Etiquetas"
     years: "años"
+  dali_document:
+  actions:
+    add: "Add Dali Document"
   date_name: "fecha"
   description: "descripción"
   devise:
