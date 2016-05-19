@@ -47,7 +47,7 @@ body { /* No incluir */
 .enlaceWeb{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right: 30px;
-	background-image: url(../images/ico_web.png);
+	background-image: url(/assets/images/ico_web.png);
 	background-repeat: no-repeat;
 	background-position: right;
 	display: inline-block;
@@ -57,7 +57,7 @@ body { /* No incluir */
 .enlaceBlanco{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #FFF;
 	text-decoration: none;
-	background-image: url(../images/capa_blanca.gif);
+	background-image: url(/assets/images/capa_blanca.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 12px;
@@ -66,7 +66,7 @@ body { /* No incluir */
 .enlacePdf{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:18px;
-	background:url(../images/ico_pdf.gif);
+	background:url(/assets/images/ico_pdf.gif);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
@@ -74,7 +74,7 @@ body { /* No incluir */
 .enlaceWord{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:23px;
-	background:url(../images/Word_Icon.png);
+	background:url(/assets/images/Word_Icon.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
@@ -82,7 +82,7 @@ body { /* No incluir */
 .enlaceExcel{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:23px;
-	background:url(../images/Excel_Icon.png);
+	background:url(/assets/images/Excel_Icon.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
@@ -90,7 +90,7 @@ body { /* No incluir */
 .enlaceGlosario{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:25px;
-	background:url(../images/ico_glosario.png);
+	background:url(/assets/images/ico_glosario.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
@@ -98,14 +98,14 @@ body { /* No incluir */
 .enlaceZip{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:19px;
-	background:url(../images/ico_zip.jpg);
+	background:url(/assets/images/ico_zip.jpg);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
 	
 .enlaceCapa { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
-	background-image: url(../images/capa_mas.gif);
+	background-image: url(/assets/images/capa_mas.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 12px;
@@ -113,7 +113,7 @@ body { /* No incluir */
 
 .enlacePopup { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
-	background-image: url(../images/texto_alt.gif);
+	background-image: url(/assets/images/texto_alt.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 20px;
@@ -121,7 +121,7 @@ body { /* No incluir */
 
 .enlacePopup_blanco { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #FFF;
-	background-image: url(../images/texto_alt.gif);
+	background-image: url(/assets/images/texto_alt.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 20px;
@@ -349,7 +349,7 @@ h6 {
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	text-transform: uppercase;
 	margin-top: 0px;
@@ -387,7 +387,7 @@ a.text_violeta:link{ /* Incluir un estilo para los enlaces, al igual que pdf, wo
 	font-style: normal;
 	font-weight: bold;
 	padding-right:25px;
-	background:url(../images/ico_traducir.png)no-repeat right;
+	background:url(/assets/images/ico_traducir.png)no-repeat right;
 }
 
 a.text_violeta:hover{/* No incluir */
@@ -437,7 +437,7 @@ a.text_violeta:hover{/* No incluir */
 .caja .contenido a.ejemplo {/* Incluir - Se aplica al enlace que abre el ejemplo */
 	font-weight: bold;
 	color: #F47920;
-	background-image: url(../images/capa_ejemplo.gif);
+	background-image: url(/assets/images/capa_ejemplo.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 10px;
@@ -449,7 +449,7 @@ a.text_violeta:hover{/* No incluir */
 	padding-right: 25px;
 	padding-bottom: 10px;
 	padding-left: 25px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat: repeat-x;
 	background-position: bottom;
 	margin-bottom: 25px;
@@ -465,7 +465,7 @@ a.text_violeta:hover{/* No incluir */
 	padding-right: 25px;
 	padding-bottom: 25px;
 	padding-left: 25px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 25px;
@@ -481,7 +481,7 @@ a.text_violeta:hover{/* No incluir */
 	padding-right: 25px;
 	padding-bottom: 30px;
 	padding-left: 25px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 25px;
@@ -506,31 +506,31 @@ a.text_violeta:hover{/* No incluir */
 	color: #F47920;
 }
 .excepcion {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_excepcion.gif);
+	background-image: url(/assets/images/mini_excepcion.gif);
 }
 .importante {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_importante.gif);
+	background-image: url(/assets/images/mini_importante.gif);
 }
 .novedad {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_new.gif);
+	background-image: url(/assets/images/mini_new.gif);
 }
 .nota {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_nota.gif);
+	background-image: url(/assets/images/mini_nota.gif);
 }
 .definicion {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_definicion.gif);
+	background-image: url(/assets/images/mini_definicion.gif);
 }
 .ejercicio {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_ejerciciolibre.gif);
+	background-image: url(/assets/images/mini_ejerciciolibre.gif);
 }
 .masinfo {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_masinfo.gif);
+	background-image: url(/assets/images/mini_masinfo.gif);
 }
 .marcolegal {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_marco.png);
+	background-image: url(/assets/images/mini_marco.png);
 }
 .recuerda {/* Incluir - Se aplica a texto */
-	background-image: url(../images/mini_recuerda.gif);
+	background-image: url(/assets/images/mini_recuerda.gif);
 }
 
 
@@ -567,7 +567,7 @@ li .resaltado .cm {/* No incluir */
 	padding-right: 30px;
 	padding-bottom: 10px;
 	padding-left: 55px;
-	background-image: url(../images/mini_masinfo.gif);
+	background-image: url(/assets/images/mini_masinfo.gif);
 	background-repeat: no-repeat;
 	background-position: 30px center;
 	margin-top: 15px;
@@ -585,7 +585,7 @@ li .resaltado .cm {/* No incluir */
 	padding-right: 30px;
 	padding-bottom: 10px;
 	padding-left: 55px;
-	background-image: url(../images/mini_nota.gif);
+	background-image: url(/assets/images/mini_nota.gif);
 	background-repeat: no-repeat;
 	background-position: 30px center;
 	margin-top: 15px;
@@ -597,7 +597,7 @@ li .resaltado .cm {/* No incluir */
 	padding-right: 30px;
 	padding-bottom: 10px;
 	padding-left: 30px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat: repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -630,7 +630,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 30px;
 	padding-bottom: 10px;
 	padding-left: 30px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat: repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -645,7 +645,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 30px;
 	padding-bottom: 10px;
 	padding-left: 10px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -660,7 +660,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 30px;
 	padding-bottom: 30px;
 	padding-left: 30px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -674,7 +674,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 20px;
 	padding-bottom: 20px;
 	padding-left: 10px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -689,7 +689,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 30px;
 	padding-bottom: 5px;
 	padding-left: 20px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -704,7 +704,7 @@ ul li .cuerpocapas { /* No incluir */
 	padding-right: 20px;
 	padding-bottom: 20px;
 	padding-left: 20px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 20px;
@@ -834,17 +834,17 @@ li { /* No incluir */
 	font-size: small;
 }
 ul.bolo_flecha { /* Incluir - Se aplica a listas */
-	list-style-image: url(../images/bolo_flecha.gif);
+	list-style-image: url(/assets/images/bolo_flecha.gif);
 }
 ul.boliche { /* Incluir - Se aplica a listas */
 	list-style-type: disc;
 	list-style-image: none;
 }
 ul.guion { /* Incluir - Se aplica a listas */
-	list-style-image: url(../images/guion_medio.gif);
+	list-style-image: url(/assets/images/guion_medio.gif);
 }
 ul.bolo { /* Incluir - Se aplica a listas */
-	list-style-image: url(../images/bolo.gif);
+	list-style-image: url(/assets/images/bolo.gif);
 }
 ol.letra { /* Incluir - Se aplica a listas */
 	list-style-type: lower-alpha;
@@ -905,11 +905,11 @@ ol.letra { /* Incluir - Se aplica a listas */
 
 .pie a img { /* No incluir */
 	background-color: #FFFFFF;
-	background-image: url(../images/pestana_off.gif);
+	background-image: url(/assets/images/pestana_off.gif);
 }
 .pie a:hover img { /* No incluir */
 	background-color: #BBBBBB;
-	background-image: url(../images/pestana_on.gif);
+	background-image: url(/assets/images/pestana_on.gif);
 }
 
 /*..................Tabla..................*/
@@ -1089,7 +1089,7 @@ a.capa_gris { /* Incluir - Se aplica a enlaces de texto */
 	padding-right: 20px;
 	padding-bottom: 10px;
 	padding-left: 20px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 10px;
@@ -1116,7 +1116,7 @@ a.capa_gris { /* Incluir - Se aplica a enlaces de texto */
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #EFEFEF;
-	background-image: url(../images/bot_solucion.gif);
+	background-image: url(/assets/images/bot_solucion.gif);
 	background-repeat: no-repeat;
 	background-position: right;
 	height: 50px;
@@ -1160,7 +1160,7 @@ table.fraccion { /* Incluir - Se aplica a tablas */
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	text-align: right;
 }
@@ -1246,7 +1246,7 @@ table.fraccion { /* Incluir - Se aplica a tablas */
 	padding-right: 20px;
 	padding-bottom: 15px;
 	padding-left: 20px;
-	background-image: url(../images/back_linea.gif);
+	background-image: url(/assets/images/back_linea.gif);
 	background-repeat:  repeat-x;
 	background-position: bottom;
 	margin-bottom: 10px;
@@ -1337,7 +1337,7 @@ table.fraccion { /* Incluir - Se aplica a tablas */
 	padding-left: 40px;
 	padding-bottom: 3px;
 	padding-top: 20px;
-	background-image: url(../images/iconDemo.png);
+	background-image: url(/assets/images/iconDemo.png);
 	background-repeat: no-repeat;
 	background-position: left center;	
 	font-weight: bold;
@@ -1350,7 +1350,7 @@ table.fraccion { /* Incluir - Se aplica a tablas */
 	padding-left: 60px;
 	padding-bottom: 3px;
 	padding-top: 20px;
-	background-image: url(../images/iconPractice.png);
+	background-image: url(/assets/images/iconPractice.png);
 	background-repeat: no-repeat;
 	background-position: left center;	
 	font-weight: bold;
@@ -1363,7 +1363,7 @@ table.fraccion { /* Incluir - Se aplica a tablas */
 	padding-left: 60px;
 	padding-bottom: 3px;
 	padding-top: 20px;
-	background-image: url(../images/iconEjPractice.png);
+	background-image: url(/assets/images/iconEjPractice.png);
 	background-repeat: no-repeat;
 	background-position: left center;	
 	font-weight: bold;
@@ -1681,7 +1681,7 @@ GLOSARIO    */
 	height:50px;
 	padding:5px;
 	background-color:#FFF;
-	background-image:url(../images/recursos/loading.gif);
+	background-image:url(/assets/images/recursos/loading.gif);
 	background-repeat: no-repeat;
 	background-position:5px;
 	border: 1px solid #ccc;
@@ -1714,7 +1714,7 @@ GLOSARIO    */
 }
 
 .popBar .cerrar{ /* No incluir */
-	background-image:url(../images/recursos/botClose.png);
+	background-image:url(/assets/images/recursos/botClose.png);
 	background-repeat:no-repeat;
 	background-position:center center;
 	width:30px;
@@ -1852,7 +1852,7 @@ GLOSARIO    */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #F47920;
-	background-image: url(../images/icon_Practica.png);
+	background-image: url(/assets/images/icon_Practica.png);
 	background-repeat: no-repeat;
 	background-position: left;
 	display: block;
@@ -1872,7 +1872,7 @@ GLOSARIO    */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #0C8E02;
-	background-image: url(../images/icon_Act_Colaborativa.png);
+	background-image: url(/assets/images/icon_Act_Colaborativa.png);
 	background-repeat: no-repeat;
 	background-position: left;
 	display: block;
@@ -1892,7 +1892,7 @@ GLOSARIO    */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #529bd6;
-	background-image: url(../images/icon_Act_Individual.png);
+	background-image: url(/assets/images/icon_Act_Individual.png);
 	background-repeat: no-repeat;
 	background-position: left;
 	display: block;
@@ -1911,7 +1911,7 @@ GLOSARIO    */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #9d073a;
-	background-image: url(../images/icon_Presencia.png);
+	background-image: url(/assets/images/icon_Presencia.png);
 	background-repeat: no-repeat;
 	background-position: left;
 	display: block;
@@ -2035,7 +2035,7 @@ table.tabla_finalizacion { /* Incluir - Se aplica a tablas */
 	background-color:#9FF;
 }
 .tabla_finalizacion tr .pasado { /* Incluir - Se aplica a td */
-	background-image: url(../images/tic.png);
+	background-image: url(/assets/images/tic.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -2223,7 +2223,7 @@ table.tabla_finalizacion { /* Incluir - Se aplica a tablas */
 	float:left;
 	width:100%;
 	height:100%;
-	background-image: url(../images/recursos/question.jpg);
+	background-image: url(/assets/images/recursos/question.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -2244,7 +2244,7 @@ table.tabla_finalizacion { /* Incluir - Se aplica a tablas */
 	padding-right: 20px;
 	padding-bottom: 10px;
 	padding-left: 20px;
-	background-image: url(../images/azul_linea.gif);
+	background-image: url(/assets/images/azul_linea.gif);
 	background-repeat: repeat-x;
 	background-position: bottom;
 	margin-bottom: 10px;
@@ -2303,7 +2303,7 @@ ul.mapa li p { /* No incluir */
   opacity: 0.20;*/
   position: absolute;
   top: 0%;
-  background: url("../images/recursos/naranjaTrans.png");
+  background: url("/assets/images/recursos/naranjaTrans.png");
 }
 ul.mapa li:hover p { /* No incluir */
   display: block;
