@@ -39,7 +39,7 @@ PATH_EDITOR_BP = 'src\=\"/assets/editor/BasePlugin.js"'
 PATH_EDITOR_BPV = 'src\=\"/assets/editor/BasePluginVisor.js"'
 PATH_PLUGINS = 'src\=\"/assets/editor/plugins.js"'
 PATH_BUNDLE = 'src\=\"/assets/editor/bundle.js"'
-PATH_CSS_TEXTSTYLES = 'src\=\"/assets/dali_documents/textStyles.css"'
+PATH_CSS_TEXTSTYLES = 'href\=\"/assets/dali_documents/textStyles.css"'
 
 #IMAGES
 PATH_IMAGES_SRC = 'src\="/assets/images'
@@ -83,7 +83,7 @@ namespace :dali_editor do
 		system "cp " + DALI_EDITOR_PATH + "/dist/plugins.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor"
 
 		system "cp " + DALI_EDITOR_PATH + "/dist/dist.zip " +  DALI_EDITOR_PLUGIN_PATH + "/extras/dist.zip"
-		system "cp " + DALI_EDITOR_PATH + "/dist/index.html " +  DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
+		system "cp " + DALI_EDITOR_PATH + "/dist/index.html " +  DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 		system "cp " + DALI_EDITOR_PATH + "/dist/plugins.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor/"
 	end
 
@@ -94,14 +94,14 @@ namespace :dali_editor do
 	end
 
 	task :rewrite_localization_paths do
-		
+
 		#REWRITE INDEX.HTML.ERB
-		system "sed -i 's#" + REGEX_LIB+ "#" + PATH_LIB + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
-		system "sed -i 's#" + REGEX_BASEPLUGIN+ "#" + PATH_EDITOR_BP + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
-		system "sed -i 's#" + REGEX_BASEPLUGINVISOR+ "#" + PATH_EDITOR_BPV + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
-		system "sed -i 's#" + REGEX_PLUGINS+ "#" + PATH_PLUGINS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
-		system "sed -i 's#" + REGEX_BUNDLE+ "#" + PATH_BUNDLE + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
-		system "sed -i 's#" + REGEX_CSS+ "#" + PATH_CSS_TEXTSTYLES + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.html.erb"
+		system "sed -i 's#" + REGEX_LIB+ "#" + PATH_LIB + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_BASEPLUGIN+ "#" + PATH_EDITOR_BP + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_BASEPLUGINVISOR+ "#" + PATH_EDITOR_BPV + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_PLUGINS+ "#" + PATH_PLUGINS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_BUNDLE+ "#" + PATH_BUNDLE + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_CSS+ "#" + PATH_CSS_TEXTSTYLES + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 
 	end
 
