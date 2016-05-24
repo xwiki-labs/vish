@@ -21,6 +21,10 @@ REGEX_PLUGINS = 'src\="plugins.js"'
 REGEX_BUNDLE = 'src\="bundle.js"'
 REGEX_CSS = 'href\="css/textStyles.css"'
 
+REGEX_DIST = '/lib/visor/dist.zip'
+REGEX_INDEXEJS = '/lib/visor/index.ejs'
+REGEX_SCORM = '/lib/scorm/scorm.zip'
+
 #IMAGES
 REGEX_IMAGES_SRC = 'src\="images'
 REGEX_IMAGES_SRC2 = '\.\./images'
@@ -41,6 +45,10 @@ PATH_PLUGINS = 'src\=\"/assets/editor/plugins.js"'
 PATH_BUNDLE = 'src\=\"/assets/editor/bundle.js"'
 PATH_CSS_TEXTSTYLES = 'href\=\"/assets/dali_documents/textStyles.css"'
 
+PATH_DIST = "/assets/lib/visor/dist.zip"
+PATH_INDEXEJS = "/assets/lib/visor/index.js"
+PATH_SCORM = "/assets/lib/scorm/scorm.zip"
+
 #IMAGES
 PATH_IMAGES_SRC = 'src\="/assets/images'
 PATH_IMAGES_SRC2 = '/assets/images'
@@ -54,6 +62,7 @@ namespace :dali_editor do
     	Rake::Task["dali_editor:rewrite_api_paths"].invoke
     	Rake::Task["dali_editor:rewrite_localization_paths"].invoke
     	Rake::Task["dali_editor:rewrite_images_paths"].invoke
+    	Rake::Task["dali_editor:rewrite_visor_path"].invoke
 	end
 
 	task :import do
@@ -81,10 +90,12 @@ namespace :dali_editor do
 		system "cp " + DALI_EDITOR_PATH + "/dist/BasePluginVisor.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor"
 		system "cp " + DALI_EDITOR_PATH + "/dist/bundle.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor"
 		system "cp " + DALI_EDITOR_PATH + "/dist/plugins.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor"
+		system "cp " + DALI_EDITOR_PATH + "/dist/plugins.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor"
 
 		system "cp " + DALI_EDITOR_PATH + "/dist/dist.zip " +  DALI_EDITOR_PLUGIN_PATH + "/extras/dist.zip"
 		system "cp " + DALI_EDITOR_PATH + "/dist/index.html " +  DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
-		system "cp " + DALI_EDITOR_PATH + "/dist/plugins.js " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor/"
+		#WE RENAME EJS FILES BECAUSE RAILS DOESNT KNOW HOW TO HANDLE THEM XD
+		system "mv " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.ejs " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
 	end
 
 	task :rewrite_api_paths do
@@ -106,9 +117,24 @@ namespace :dali_editor do
 	end
 
 	task :rewrite_images_paths do
-		system "sed -i 's#" + REGEX_IMAGES_SRC+ "#" + PATH_IMAGES_SRC + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.ejs"
+		system "sed -i 's#" + REGEX_IMAGES_SRC+ "#" + PATH_IMAGES_SRC + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
 		system "sed -i 's#" + REGEX_IMAGES_SRC+ "#" + PATH_IMAGES_SRC + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visorbackup.js"
 		system "sed -i 's#" + REGEX_IMAGES_SRC2+ "#" + PATH_IMAGES_SRC2 + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/stylesheets/dali_documents/textStyles.css"
 		system "sed -i 's#" + REGEX_IMAGES_PLAIN+ "#" + PATH_IMAGES_PLAIN + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/editor/bundle.js"
+	end
+
+	task :rewrite_visor_path do
+		system "sed -i 's#" + REGEX_LIB+ "#" + PATH_LIB + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "sed -i 's#" + REGEX_BASEPLUGIN+ "#" + PATH_EDITOR_BP + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "sed -i 's#" + REGEX_BASEPLUGINVISOR+ "#" + PATH_EDITOR_BPV + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "sed -i 's#" + REGEX_PLUGINS+ "#" + PATH_PLUGINS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "sed -i 's#" + REGEX_BUNDLE+ "#" + PATH_BUNDLE + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "sed -i 's#" + REGEX_CSS+ "#" + PATH_CSS_TEXTSTYLES + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+
+		system "sed -i 's#" + REGEX_DIST+ "#" + PATH_DIST + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visor.js"
+		system "sed -i 's#" + REGEX_INDEXEJS+ "#" + PATH_INDEXEJS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visor.js"		
+
+		system "sed -i 's#" + REGEX_SCORM + "#" + PATH_SCORM + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/scorm/scorm.js"
+		system "sed -i 's#" + REGEX_INDEXEJS+ "#" + PATH_INDEXEJS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/scorm/scorm.js"		
 	end
 end

@@ -424,8 +424,9 @@ es:
     tags: "Etiquetas"
     years: "años"
   dali_document:
-  actions:
-    add: "Add Dali Document"
+    actions:
+      add: "Add Dali Document"
+    other: "Dali Documents"
   date_name: "fecha"
   description: "descripción"
   devise:
