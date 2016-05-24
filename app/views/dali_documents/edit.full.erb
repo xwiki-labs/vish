@@ -1,7 +1,10 @@
-
+<script type="text/javascript">
+	var dali_document_json = "<%= dali_document.json%>";
+</script>
 <%=render partial: 'dali_documents/dali_document'%>
 
 <script type="text/javascript">
+	var url_to_save = "/dali_documents/<%= id %>";
 	$(".fa-folder-open").parent().hide();
 	$(".fa-save").parent().css("border-right", "2px solid #888");
 </script>

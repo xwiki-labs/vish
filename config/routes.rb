@@ -90,6 +90,7 @@ Vish::Application.routes.draw do
 
   resources :excursions
 
+  match '/dali_documents/create_document' => 'dali_documents#create_document', :via => :post
   resources :dali_documents
   #Workshops
   match '/workshops/:id/edit_details' => 'workshops#edit_details'
