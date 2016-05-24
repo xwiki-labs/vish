@@ -444,6 +444,7 @@ en:
   dali_document:
     actions:
       add: "Add Dali Document"
+    other: "Dali Documents"
   date_name: "date"
   description: "description"
   devise:
