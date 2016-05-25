@@ -12,6 +12,10 @@ module HomeHelper
     subject_content subject, Excursion, options
   end
 
+  def subject_dali_documents(subject, options = {})
+    subject_content subject, DaliDocument, options
+  end
+
   def subject_workshops(subject, options = {})
     subject_content subject, Workshop, options
   end
@@ -53,7 +57,7 @@ module HomeHelper
   end
 
   def subject_events(subject, options = {})
-    subject_content subject, Event, options 
+    subject_content subject, Event, options
   end
 
   def home_content (subject, options = {})
@@ -108,10 +112,10 @@ module HomeHelper
         query = query.order('activity_objects.updated_at DESC')
       when  "created_at"
         query = query.order('activity_objects.created_at DESC')
-      when "visits"  
+      when "visits"
         query = query.order('activity_objects.visit_count DESC')
       when "favorites"
-        query = query.order('activity_objects.like_count DESC') 
+        query = query.order('activity_objects.like_count DESC')
       when "popularity"
         #Use ranking instead of popularity
         query = query.order('activity_objects.ranking DESC')
@@ -120,7 +124,7 @@ module HomeHelper
       when "quality"
         query = query.order('activity_objects.qscore DESC')
     end
-    
+
 
     query = query.offset(options[:offset]) if options[:offset] > 0
 
@@ -139,7 +143,7 @@ module HomeHelper
       query = if klass.is_a?(Array)
                 query.includes(klass.map{ |e| e.to_s.downcase.to_sym} + [:received_actions, { :received_actions => [:actor]}])
               else
-                query.includes([:activity_object, :received_actions, { :received_actions => [:actor]}]) 
+                query.includes([:activity_object, :received_actions, { :received_actions => [:actor]}])
               end
     else
       # Do not optimize likes.
