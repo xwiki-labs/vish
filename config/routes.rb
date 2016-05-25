@@ -23,6 +23,7 @@ Vish::Application.routes.draw do
   end
 
   match 'users/:id/excursions' => 'users#excursions'
+  match 'users/:id/dali_documents' => 'users#dali_documents'
   match 'users/:id/workshops' => 'users#workshops'
   match 'users/:id/resources' => 'users#resources'
   match 'users/:id/events' => 'users#events'
