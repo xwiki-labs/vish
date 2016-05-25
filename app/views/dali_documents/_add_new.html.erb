@@ -1,25 +1,24 @@
-<li class="box-item add-item add-resource hidden-phone hidden-tablet">
+<li class="box-item add-item add-workshop hidden-xs">
   <div class="add_border">
-    <a href="#AddDaliDocument" data-toggle="modal">
+    <%= link_to new_dali_document_path do %>
     <div class="container-img">
-        <div class="img-box">
-          <i class="fa fa-plus"></i>
-        </div>
+        <div class="img-box"><i class="fa fa-plus"></i></div>
+    </div>
+    <div class="caption">
+      <!--Title -->
+      <div class="name">
+        <%=t('dali_document.actions.add')%>
       </div>
-      <div class="caption">
-        <!--Title -->
-        <div class="name">
-          <%=t('resource.actions.add')%>
-        </div>
-        <!--Autor -->
-        <div class="author">
-          <span class="by"></span>
-        </div>
-        <!--____________________ -->
-        <div class="info-bottom">
-          <hr class="soften">
-        </div>
+      <!--Autor -->
+      <div class="author">
+        <span class="by"></span>
       </div>
-    </a>
+      <!--____________________ -->
+      <div class="info-bottom">
+        <hr class="soften">
+        <!--like -->
+      </div>
+    </div>
+    <% end %>
   </div>
 </li>

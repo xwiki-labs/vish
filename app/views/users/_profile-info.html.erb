@@ -376,9 +376,9 @@
        <!-- DALI DOCUMENTS -->
 
       <% if availableModels.include? "Excursion" %>
-        <div class="tab-pane <%=params[:tab]=='dali_documents' ? 'active':''%>" id="DaliDocuments">
+        <div class="tab-pane <%=params[:tab]=='dali_documents' ? 'active':''%>" id="tabDaliDocuments">
 
-          <div id="excursions_tab_ready"  class="entities excursions">
+          <div id="dali_documents_tab_ready"  class="resources">
             <% if params[:tab]== 'dali_documents' %>
               <% default_sort_by = profile_subject_is_current? ? "updated_at" : "popularity"%>
               <%= render partial: 'dali_documents/profile_dali_documents_list', :locals => {:scope => :me, :limit => 0, :page=> params[:page] || 1, :sort_by=> params[:sort_by]||default_sort_by}%>
