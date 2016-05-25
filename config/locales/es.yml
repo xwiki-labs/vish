@@ -425,8 +425,8 @@ es:
     years: "años"
   dali_document:
     actions:
-      add: "Add Dali Document"
-    other: "Dali Documents"
+      add: "Añadir Documento Dali"
+    other: "Documentos Dali"
   date_name: "fecha"
   description: "descripción"
   devise:
