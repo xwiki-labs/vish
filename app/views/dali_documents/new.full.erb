@@ -15,5 +15,9 @@
 	$(".fa-folder-open").parent().hide();
 	$(".fa-save").parent().css("border-right", "2px solid #888");
 
-	for(var plugin in Dali.Plugins.getAll()){Dali.Plugins.get(plugin).init()};
+	document.addEventListener("DOMContentLoaded", function(event) {
+		for(var plugin in Dali.Plugins.getAll()){Dali.Plugins.get(plugin).init()};
+	});
+
+
 </script>
