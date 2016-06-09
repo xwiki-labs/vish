@@ -14,10 +14,18 @@
 	};
 	$(".fa-folder-open").parent().hide();
 	$(".fa-save").parent().css("border-right", "2px solid #888");
-
-		//manual bug fixes
-	$(".navBar").css("margin-bottom", "0px");
-	$(".cabtabla_numero").css("height", "auto");
-	$(".caja").css("height", "auto");
-	$(".contenido").css("height", "auto");
 </script>
+
+
+<style>
+.navBar{
+	margin-bottom: 0px;
+}
+.cabtabla_numero,.caja,.contenido{
+	height: auto !important;
+}
+.navBar{
+	min-height: 0px;
+}
+
+</style>
