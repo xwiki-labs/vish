@@ -98,7 +98,7 @@ namespace :dali_editor do
 
 
 
-		system "cp " + DALI_EDITOR_PATH + "/dist/dist.zip " +  DALI_EDITOR_PLUGIN_PATH + "/extras/dist.zip"
+		#system "cp " + DALI_EDITOR_PATH + "/dist/dist.zip " +  DALI_EDITOR_PLUGIN_PATH + "/extras/dist.zip"
 		system "cp " + DALI_EDITOR_PATH + "/dist/index.html " +  DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 		#WE RENAME EJS FILES BECAUSE RAILS DOESNT KNOW HOW TO HANDLE THEM XD
 		system "mv " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.ejs " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
