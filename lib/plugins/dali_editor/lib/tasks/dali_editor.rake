@@ -23,9 +23,11 @@ REGEX_PLUGINS = 'src\="plugins.js"'
 REGEX_BUNDLE = 'src\="bundle.js"'
 REGEX_CSS = 'href\="css/textStyles.css"'
 REGEX_CAJASCOLOR = 'href\="css/pluginsCss/cajascolor.css"'
+REGEX_ANIM_VERT_CSS = 'href\="css/pluginsCss/jquery-animVert.css"'
 
 REGEX_DIST = '/lib/visor/dist.zip'
 REGEX_INDEXEJS = '/lib/visor/index.ejs'
+REGEX_PAGEEJS = '/lib/visor/page.ejs'
 REGEX_SCORM = '/lib/scorm/scorm.zip'
 
 #IMAGES
@@ -50,9 +52,11 @@ PATH_PLUGINS = 'src\=\"/assets/editor/plugins.js"'
 PATH_BUNDLE = 'src\=\"/assets/editor/bundle.js"'
 PATH_CSS_TEXTSTYLES = 'href\=\"/assets/dali_documents/textStyles.css"'
 PATH_CAJASCOLOR = 'href\=\"/assets/dali_documents/pluginsCss/cajascolor.css"'
+PATH_ANIM_VERT_CSS = 'href\=\"/assets/dali_documents/pluginsCss/jquery-animVert.css"'
 
 PATH_DIST = "/assets/lib/visor/dist.zip"
 PATH_INDEXEJS = "/assets/lib/visor/index.js"
+PATH_PAGEEJS = "/assets/lib/visor/page.js"
 PATH_SCORM = "/assets/lib/scorm/scorm.zip"
 
 #IMAGES
@@ -102,6 +106,7 @@ namespace :dali_editor do
 		system "cp " + DALI_EDITOR_PATH + "/dist/index.html " +  DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 		#WE RENAME EJS FILES BECAUSE RAILS DOESNT KNOW HOW TO HANDLE THEM XD
 		system "mv " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.ejs " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/index.js"
+		system "mv " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/page.ejs " +  DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/page.js"
 	end
 
 	task :rewrite_api_paths do
@@ -121,6 +126,7 @@ namespace :dali_editor do
 		system "sed -i 's#" + REGEX_BUNDLE+ "#" + PATH_BUNDLE + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 		system "sed -i 's#" + REGEX_CSS+ "#" + PATH_CSS_TEXTSTYLES + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 		system "sed -i 's#" + REGEX_CAJASCOLOR+ "#" + PATH_CAJASCOLOR + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
+		system "sed -i 's#" + REGEX_ANIM_VERT_CSS+ "#" + PATH_ANIM_VERT_CSS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/views/dali_documents/_dali_document.full.erb"
 	end
 
 	task :rewrite_images_paths do
@@ -140,6 +146,7 @@ namespace :dali_editor do
 
 		system "sed -i 's#" + REGEX_DIST+ "#" + PATH_DIST + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visor.js"
 		system "sed -i 's#" + REGEX_INDEXEJS+ "#" + PATH_INDEXEJS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visor.js"
+		system "sed -i 's#" + REGEX_PAGEEJS+ "#" + PATH_PAGEEJS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/visor/visor.js"
 
 		system "sed -i 's#" + REGEX_SCORM + "#" + PATH_SCORM + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/scorm/scorm.js"
 		system "sed -i 's#" + REGEX_INDEXEJS+ "#" + PATH_INDEXEJS + "#g' " + DALI_EDITOR_PLUGIN_PATH + "/app/assets/javascripts/lib/scorm/scorm.js"
