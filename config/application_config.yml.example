@@ -98,6 +98,9 @@ test:
 
 # Other configuration options
 
+# XWiki URL
+#   XWikiViewURL: "http://localhost:8080/xwiki/bin/view/"
+
 # Specify settings for tags
 #  tagsSettings:
 #    maxLength: 20
