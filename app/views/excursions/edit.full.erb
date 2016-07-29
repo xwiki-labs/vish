@@ -20,6 +20,7 @@
 	configuration["ViSH"] = true;
 	configuration["ViSH_instances"] = ["<%= Vish::Application.config.full_domain %>"];
 	configuration["Flickr"] = true;
+	configuration["XWiki"] = true;
 	<% unless Vish::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
 		configuration["Europeana"] = true;
 		configuration["EuropeanaAPIKEY"] =  "<%= Vish::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
