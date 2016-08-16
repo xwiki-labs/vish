@@ -20,11 +20,11 @@
 	configuration["ViSH"] = true;
 	configuration["ViSH_instances"] = ["<%= Vish::Application.config.full_domain %>"];
 	configuration["Flickr"] = true;
-    <% unless Vish::Application.config.APP_CONFIG['XWiki_url'].nil? %>
+	<% unless Vish::Application.config.APP_CONFIG['xwiki_url'].nil? %>
 		configuration["XWiki"] = true;
-		configuration["XWiki_url"] =  "<%= Vish::Application.config.APP_CONFIG['XWiki_url'] %>";
+		configuration["XWiki_url"] =  "<%= Vish::Application.config.APP_CONFIG['xwiki_url'] %>";
 	<% end %>
-    <% unless Vish::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
+	<% unless Vish::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
 		configuration["Europeana"] = true;
 		configuration["EuropeanaAPIKEY"] =  "<%= Vish::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
 	<% end %>
