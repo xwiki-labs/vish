@@ -94,6 +94,7 @@ Some symbols are represented by codes. For instance, "&#8209;" means "-". So, "e
 "i.ePackage"        : "e-Learning Package",
 "i.ePackageError1"      : "An error ocurred when uploading the e&#8209;Learning package.",
 "i.errorFlickrConnection" : "Error connecting to Flickr",
+"i.errorXWikiConnection" : "Error connecting to XWiki",
 "i.errorLREConnection"    : "Error connecting to the LRE repository",
 "i.errorViSHConnection"   : "Error connecting to ViSH server",
 "i.errorYoutubeConnection"  : "Error connecting to YouTube",
