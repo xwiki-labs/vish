@@ -32,6 +32,7 @@ development:
     mode: "matchtag" #matchany or matchtag
     qualityThreshold: 5
   moodle_url: "http://moodle.vishub.org"  #this param is optional
+  XWiki_url: "http://localhost:8080/xwiki/bin/view/" #this param is optional
 
 
 production:
